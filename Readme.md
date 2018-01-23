@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Иван Якубчук](https://up.htmlacademy.ru/javascript/12/user/502779).
-* Наставник: `Неизвестно`.
+* Наставник: Артемий Бойков.
 
 ---
 
