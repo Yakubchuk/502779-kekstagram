@@ -42,3 +42,9 @@ for (var i = 0; i < photos.length; i++) {
   fragment.appendChild(renderPhotos(photos[i]));
 };
 picturesList.appendChild(fragment);
+
+//--- Заполняем ДОМ данными из первого объекта массива
+mainPicture.classList.remove('hidden');
+mainPicture.querySelector('.gallery-overlay-image').src = photos[0].url;
+mainPicture.querySelector('.likes-count').textContent = photos[0].likes;
+mainPicture.querySelector('.comments-count').textContent = photos[0].comments;
