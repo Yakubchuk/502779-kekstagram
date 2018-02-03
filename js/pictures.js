@@ -16,5 +16,15 @@ function getRandomNum(max, min) {
   return Math.floor(Math.random() * (max + 1 - min));
 }
 
+//---Запонлнение Массива Объектов Данными
+var photos = [];
+for ( var i = 0; i < 25; i++) {
+  photos [i] =
+    {
+      url: 'photos/'+ (i+1) +'.jpg',
+      likes: getRandomNum(200, 15),
+      comments: COMMENTS[getRandomNum(COMMENTS.length, 1)]
+    }
+}
 
-
+console.log(photos);
