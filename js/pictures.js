@@ -26,7 +26,6 @@ for ( var i = 0; i < 25; i++) {
       comments: COMMENTS[getRandomNum(COMMENTS.length, 1)]
     }
 }
-
 console.log(photos);
 
 var renderPhotos = function () {
