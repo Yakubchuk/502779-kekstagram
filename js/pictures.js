@@ -41,3 +41,4 @@ var fragment = document.createDocumentFragment();
 for (var i = 0; i < photos.length; i++) {
   fragment.appendChild(renderPhotos(photos[i]));
 };
+picturesList.appendChild(fragment);
