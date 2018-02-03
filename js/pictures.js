@@ -28,3 +28,16 @@ for ( var i = 0; i < 25; i++) {
 }
 
 console.log(photos);
+
+var renderPhotos = function () {
+  var currentPictures = pictureTemplate.cloneNode(true);
+  currentPictures.querySelector('img').src = photos[i].url;
+  currentPictures.querySelector('.picture-likes').textContent = photos[i].likes;
+  currentPictures.querySelector('.picture-comments').textContent = photos[i].comments;
+  return currentPictures;
+};
+
+var fragment = document.createDocumentFragment();
+for (var i = 0; i < photos.length; i++) {
+  fragment.appendChild(renderPhotos(photos[i]));
+};
