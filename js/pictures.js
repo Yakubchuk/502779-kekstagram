@@ -26,15 +26,20 @@ for (var i = 0; i < 25; i++) {
       comments: COMMENTS[getRandomNum(COMMENTS.length, 1)]
     };
 }
-
-var renderPhotos = function () {
+var renderPhotos = function (item) {
   var currentPictures = pictureTemplate.cloneNode(true);
-  currentPictures.querySelector('img').src = photos[i].urls;
-  currentPictures.querySelector('.picture-likes').textContent = photos[i].likes;
-  currentPictures.querySelector('.picture-comments').textContent = photos[i].comments;
+  currentPictures.querySelector('img').src = item.urls;
+  currentPictures.querySelector('.picture-likes').textContent = item.likes;
+  currentPictures.querySelector('.picture-comments').textContent = item.comments;
   return currentPictures;
 };
-
+// var renderPhotos = function () {
+//   var currentPictures = pictureTemplate.cloneNode(true);
+//   currentPictures.querySelector('img').src = photos[i].urls;
+//   currentPictures.querySelector('.picture-likes').textContent = photos[i].likes;
+//   currentPictures.querySelector('.picture-comments').textContent = photos[i].comments;
+//   return currentPictures;
+// };
 var fragment = document.createDocumentFragment();
 for (var i = 0; i < photos.length; i++) {
   fragment.appendChild(renderPhotos(photos[i]));
@@ -42,7 +47,7 @@ for (var i = 0; i < photos.length; i++) {
 picturesList.appendChild(fragment);
 
 // --- Заполняем ДОМ данными из первого объекта массива
-mainPicture.classList.remove('hidden');
+// mainPicture.classList.remove('hidden');
 mainPicture.querySelector('.gallery-overlay-image').src = photos[0].urls;
 mainPicture.querySelector('.likes-count').textContent = photos[0].likes;
 mainPicture.querySelector('.comments-count').textContent = photos[0].comments;
