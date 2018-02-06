@@ -16,6 +16,18 @@ function getRandomNum(max, min) {
   return Math.floor(Math.random() * (max + 1 - min));
 }
 
+// ---функция выбора одного\двух комментариев
+function getRndQuantity() {
+  var num = [];
+  var obj = COMMENTS;
+  var count = getRandomNum(2, 1) + 1;
+  // num.slice(0, num.length);
+  for (var j = 0; j < count; j++) {
+    num[j] = obj[Math.floor(Math.random() * obj.length)];
+  }
+  return num;
+}
+
 // ---Запонлнение Массива Объектов Данными
 var photos = [];
 for (var i = 0; i < 25; i++) {
@@ -23,9 +35,10 @@ for (var i = 0; i < 25; i++) {
     {
       urls: 'photos/' + (i + 1) + '.jpg',
       likes: getRandomNum(200, 15),
-      comments: COMMENTS[getRandomNum(COMMENTS.length, 1)]
+      comments: getRndQuantity().length
     };
 }
+// ---Заполнение ДОМ данными
 var renderPhotos = function (item) {
   var currentPictures = pictureTemplate.cloneNode(true);
   currentPictures.querySelector('img').src = item.urls;
@@ -33,17 +46,12 @@ var renderPhotos = function (item) {
   currentPictures.querySelector('.picture-comments').textContent = item.comments;
   return currentPictures;
 };
-// var renderPhotos = function () {
-//   var currentPictures = pictureTemplate.cloneNode(true);
-//   currentPictures.querySelector('img').src = photos[i].urls;
-//   currentPictures.querySelector('.picture-likes').textContent = photos[i].likes;
-//   currentPictures.querySelector('.picture-comments').textContent = photos[i].comments;
-//   return currentPictures;
-// };
+
 var fragment = document.createDocumentFragment();
 for (var i = 0; i < photos.length; i++) {
   fragment.appendChild(renderPhotos(photos[i]));
 }
+
 picturesList.appendChild(fragment);
 
 // --- Заполняем ДОМ данными из первого объекта массива
