@@ -30,7 +30,7 @@ function getRndQuantity() {
 
 // ---Запонлнение Массива Объектов Данными
 var photos = [];
-for (var i = 0; i < 3; i++) {
+for (var i = 0; i < 25; i++) {
   photos [i] =
     {
       urls: 'photos/' + (i + 1) + '.jpg',
@@ -56,7 +56,7 @@ for (var i = 0; i < photos.length; i++) {
 picturesList.appendChild(fragment);
 
 // --- Заполняем ДОМ данными из первого объекта массива
-// mainPicture.classList.remove('hidden');
+mainPicture.classList.remove('hidden');
 mainPicture.querySelector('.gallery-overlay-image').src = photos[0].urls;
 mainPicture.querySelector('.likes-count').textContent = photos[0].likes;
-mainPicture.querySelector('.comments-count').textContent = photos[0].comments;
+mainPicture.querySelector('.comments-count').textContent = photos[0].comments.length;
