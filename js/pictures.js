@@ -30,20 +30,21 @@ function getRndQuantity() {
 
 // ---Запонлнение Массива Объектов Данными
 var photos = [];
-for (var i = 0; i < 25; i++) {
+for (var i = 0; i < 3; i++) {
   photos [i] =
     {
       urls: 'photos/' + (i + 1) + '.jpg',
       likes: getRandomNum(200, 15),
-      comments: getRndQuantity().length
+      comments: getRndQuantity()
     };
 }
+
 // ---Заполнение ДОМ данными
 var renderPhotos = function (item) {
   var currentPictures = pictureTemplate.cloneNode(true);
   currentPictures.querySelector('img').src = item.urls;
   currentPictures.querySelector('.picture-likes').textContent = item.likes;
-  currentPictures.querySelector('.picture-comments').textContent = item.comments;
+  currentPictures.querySelector('.picture-comments').textContent = item.comments.length;
   return currentPictures;
 };
 
