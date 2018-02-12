@@ -71,7 +71,7 @@ picturesList.appendChild(fragment);
 
 
 var ESC_KEYCODE = 27;
-// var ENTER_KEYCODE = 13;
+var ENTER_KEYCODE = 13;
 
 var formClose = document.querySelector('.upload-form-cancel');
 var selectFile = document.querySelector('#upload-file');
@@ -244,7 +244,9 @@ var hashTags = document.querySelector('.upload-form-hashtags');
 var description = document.querySelector('.upload-form-description');
 
 var spaceDel = function (str) {
+  console.log(str);
   str = str.replace(/\s/g, '');
+  console.log(str);
   return str;
 };
 
@@ -253,17 +255,14 @@ hashTags.addEventListener('change', function () {
   // alert(hashTags.value);
   var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
   // alert(arr);
-
+  arr.shift();
   // --- Проверяем длинну хэш-тега
   for (i = 0; i < arr.length; i++) {
     if (arr[i].length >= 20) {
-      alert('to long');
+      arr.splice(i, 1);
     }
-    // --- проверка на пробелы???
-    // if (arr[i].indexOf(' ') >= 0) {
-    //   alert('space');
-    // }
   }
+  console.log(arr);
   // --- проверка на совпадения
   // console.log(arr);
 
@@ -278,15 +277,34 @@ hashTags.addEventListener('change', function () {
   }
   console.log(arr);
 });
-// --- длинна комментария
-description.addEventListener('change', function () {
-  if (this.value.length > 140) {
-    alert(this.value.length);
-  }
-});
+
 
 // var hasWhiteSpace = function(s) {
 //   return s.indexOf(' ') >= 0;
 // };
 
+// --- Отправка формы
 
+// --- проверка поля File
+var fileName = document.querySelector('.upload-file');
+fileName.addEventListener('invalid', function (evt) {
+  if (fileName.validity.valueMissing) {
+    fileName.setCustomValidity('обязательное поле');
+  }
+});
+
+// --- длинна комментария
+description.addEventListener('invalid', function () {
+
+  var desc = description.value.split('.');
+  console.log(desc);
+
+
+});
+
+
+var SUBMITT = document.querySelector('.upload-form-submit');
+
+SUBMITT.addEventListener('click', function () {
+    // this.submit();
+});
