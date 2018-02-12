@@ -91,12 +91,15 @@ var openSettings = function () {
 };
 var closeSettings = function () {
   settings.classList.add('hidden');
+  cleaningInput();
   document.removeEventListener('keydown', onPopupEscPress);
+  imgPreview.setAttribute('class', 'effect-image-preview');
 };
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     closeSettings();
     onCloseButtonClick();
+    imgPreview.setAttribute('class', 'effect-image-preview');
   }
 };
 var loadPicture = function () {
@@ -124,10 +127,10 @@ var imgPreview = document.querySelector('.effect-image-preview');
 buttonDec.addEventListener('click', function () {
   var currentCount = parseInt(sizeValue.value);
   var count = 25;
-  if (currentCount - count < 0) {
+  if (currentCount - count < 25) {
   } else {
     sizeValue.value = currentCount - count + '%';
-    imgPreview.style.transform = 'scale(' + (currentCount - count ) / 100 + ')';
+    imgPreview.style.transform = 'scale(' + (currentCount - count) / 100 + ')';
   }
 });
 // --- Маштаб Плюс
@@ -135,9 +138,10 @@ buttonInc.addEventListener('click', function () {
   var currentCount = parseInt(sizeValue.value);
   var count = 25;
   if (currentCount + count > 100) {
+
   } else {
     sizeValue.value = currentCount + count + '%';
-    imgPreview.style.transform = 'scale(' + (currentCount + count ) / 100 + ')';
+    imgPreview.style.transform = 'scale(' + (currentCount + count) / 100 + ')';
   }
 });
 
@@ -145,14 +149,71 @@ buttonInc.addEventListener('click', function () {
 
 // imgPreview
 var effects = document.querySelectorAll('input[name=effect]');
+var slider = document.querySelector('.upload-effect-level');
+
+var getChecked = function () {
+  var inp = effects;
+  for (var i = 0; i < inp.length; i++) {
+    if (inp[i].type === 'radio' && inp[i].checked) {
+      if (inp[i].value === 'none') {
+        slider.classList.add('hidden');
+      }
+    }
+  }
+};
+getChecked();
+
 for (var e = 0; e < effects.length; e++) {
-  effects[e].addEventListener('click', function () {
+  effects[e].addEventListener('change', function () {
     var defaultEff = 'effect-image-preview';
     var newEff = this.id.slice(7);
-    imgPreview.setAttribute('class', '');
-    imgPreview.setAttribute('class', '' + newEff + ' ' + defaultEff + '');
+    if (newEff === 'effect-none') {
+      imgPreview.setAttribute('class', '');
+      imgPreview.setAttribute('class', '' + defaultEff + '');
+      slider.classList.add('hidden');
+    } else {
+      imgPreview.setAttribute('class', '');
+      imgPreview.setAttribute('class', '' + newEff + ' ' + defaultEff + '');
+      slider.classList.remove('hidden');
+    }
   });
 }
+
+// --- Слайдер
+var runner = document.querySelector('.upload-effect-level-pin');
+
+runner.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoord = {
+    x: evt.clientX
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoord.x - moveEvt.clientX
+    };
+    startCoord = {
+      x: moveEvt.clientX
+    };
+    runner.style.left = (runner.offsetParent - shift.x) + 'px';
+
+    console.log((runner.offsetParent - shift.x) / 3 + 'px');
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    runner.removeEventListener('mousemove', onMouseMove);
+    runner.removeEventListener('mouseup', onMouseUp);
+  };
+
+  runner.addEventListener('mousemove', onMouseMove);
+  runner.addEventListener('mouseup', onMouseUp);
+
+});
 
 // --- открытие миниатюр
 
@@ -181,4 +242,33 @@ for (var x = 0; x < pictures.length; x++) {
     mainPicture.querySelector('.comments-count').textContent = this.querySelector('.picture-comments').textContent;
   });
 }
+
+// --- проверка формы
+var hashTags = document.querySelector('.upload-form-hashtags');
+var description = document.querySelector('.upload-form-description');
+
+hashTags.addEventListener('change', function () {
+  alert(hashTags.value);
+
+  var arr = hashTags.value.toLowerCase().split('#', 6);
+  var take = [];
+
+  for (i = 0; i < arr.length; i++) {
+    if (arr[i].length > 20) {
+      alert('to long');
+    }
+    if (arr[i].indexOf(' ') >= 0) {
+      alert('space');
+    }
+  }
+});
+
+description.addEventListener('change', function () {
+  alert(this.value.length);
+});
+
+// var hasWhiteSpace = function(s) {
+//   return s.indexOf(' ') >= 0;
+// };
+
 
