@@ -190,7 +190,7 @@ for (var e = 0; e < effects.length; e++) {
 
 
 
-runner.addEventListener('mousedown', function (evt) {
+runner.addEventListener('mouseup', function (evt) {
   evt.preventDefault();
   getPosition();
 
@@ -202,7 +202,6 @@ runner.addEventListener('mousedown', function (evt) {
   var currentEffect = getComputedStyle(document.querySelector('.effect-image-preview'));
   var effectDone = currentEffect.filter.slice(0, -3);
 
-  document.querySelector('.effect-image-preview').setAttribute('style', 'filter :' + effectDone + '(' + currentEffect + ')');
   console.log(document.querySelector('.effect-image-preview').style);
   console.log(effectDone);
   console.log(startCoord);
@@ -251,6 +250,11 @@ var onPicturePrewiewClick = function () {
 closeButton.addEventListener('click', function () {
   onCloseButtonClick();
   document.removeEventListener('keydown', onPopupEscPress);
+});
+closeButton.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    mainPicture.classList.add('hidden');
+  }
 });
 
 for (var x = 0; x < pictures.length; x++) {
