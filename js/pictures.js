@@ -179,7 +179,7 @@ for (var e = 0; e < effects.length; e++) {
       imgPreview.setAttribute('class', '' + newEff + ' ' + defaultEff + '');
       slider.classList.remove('hidden');
       saveValue.value = 0;
-      imgPreview.style.filter = 'none';
+      imgPreview.style = '';
     }
   });
 }
@@ -195,44 +195,45 @@ runner.addEventListener('mouseup', function (evt) {
   var effectDone = String(currentEffect.filter);
   effectDone = effectDone.substring(0, effectDone.lastIndexOf('('));
 
-  // aaa = aaa.Substring(0, aaa.LastIndexOf(',') + 1);
+// --- условия определения эффектов вычисление применяемых значений
+
   if (effectDone !== 'invert' || 'blur' || 'brigthness') {
     imgPreview.style.filter = effectDone + '(' + currentValue + ')';
-    // alert('!!!');
   }
-  console.log(effectDone);
-  saveValue.value = currentValue;
-  alert(saveValue.value);
-  console.log(currentValue);
-
-  console.log(startCoord);
-  console.log(valueBar);
+  if (effectDone === 'invert') {
+    imgPreview.style.filter = effectDone + '(' + currentValue * 100 + '%' + ')';
+  }
+  if (effectDone === 'blur') {
+    imgPreview.style.filter = effectDone + '(' + currentValue * 3 + 'px' + ')';
+  }
+  if (effectDone === 'brightness') {
+    imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')';
+  }
 
   // runner.addEventListener('mouseup', function (evt) {
   //   evt.preventDefault();
-    // var onMouseMove = function (moveEvt) {
-    //   moveEvt.preventDefault();
-    //
-    //   var shift = {
-    //     x: startCoord.x - runner.offsetLeft
-    //   };
-    //   startCoord = {
-    //     x: moveEvt.offsetLeft
-    //   };
-    //   runner.style.left = (runner.offsetLeft - shift.x) + 'px';
-    //
-    // };
-    //
-    // var onMouseUp = function (upEvt) {
-    //   upEvt.preventDefault();
-    //
-    //   runner.removeEventListener('mousemove', onMouseMove);
-    //   runner.removeEventListener('mouseup', onMouseUp);
-    // };
-    //
-    // runner.addEventListener('mousemove', onMouseMove);
-    // runner.addEventListener('mouseup', onMouseUp);
-
+  // var onMouseMove = function (moveEvt) {
+  //   moveEvt.preventDefault();
+  //
+  //   var shift = {
+  //     x: startCoord.x - runner.offsetLeft
+  //   };
+  //   startCoord = {
+  //     x: moveEvt.offsetLeft
+  //   };
+  //   runner.style.left = (runner.offsetLeft - shift.x) + 'px';
+  //
+  // };
+  //
+  // var onMouseUp = function (upEvt) {
+  //   upEvt.preventDefault();
+  //
+  //   runner.removeEventListener('mousemove', onMouseMove);
+  //   runner.removeEventListener('mouseup', onMouseUp);
+  // };
+  //
+  // runner.addEventListener('mousemove', onMouseMove);
+  // runner.addEventListener('mouseup', onMouseUp);
   // });
 });
 
