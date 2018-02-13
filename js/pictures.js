@@ -151,6 +151,7 @@ var percentBar = document.querySelector('.upload-effect-level-line');
 // imgPreview
 var effects = document.querySelectorAll('input[name=effect]');
 var slider = document.querySelector('.upload-effect-level');
+var saveValue = document.querySelector('.upload-effect-level-value');
 
 var getChecked = function () {
   var inp = effects;
@@ -189,7 +190,9 @@ runner.addEventListener('mousedown', function (evt) {
   var currentValue = startCoord / valueBar;
   var currentEffect = getComputedStyle(document.querySelector('.effect-image-preview'));
   var effectDone = String(currentEffect.filter.slice(0, -3));
-  document.querySelector('.effect-image-preview').style.filter = effectDone + '(' + currentValue + ')';
+  imgPreview.style.filter = effectDone + '(' + currentValue + ')';
+  saveValue.value = currentValue;
+  alert(saveValue.value);
   console.log(currentValue);
   console.log(effectDone);
   console.log(startCoord);
@@ -229,6 +232,8 @@ runner.addEventListener('mousedown', function (evt) {
 var pictures = document.querySelectorAll('.picture');
 var closeButton = document.querySelector('.gallery-overlay-close');
 
+
+
 var onCloseButtonClick = function () {
   mainPicture.classList.add('hidden');
 };
@@ -262,9 +267,7 @@ var hashTags = document.querySelector('.upload-form-hashtags');
 var description = document.querySelector('.upload-form-description');
 
 var spaceDel = function (str) {
-  console.log(str);
   str = str.replace(/\s/g, '');
-  console.log(str);
   return str;
 };
 
