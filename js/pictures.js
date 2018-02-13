@@ -142,6 +142,18 @@ buttonInc.addEventListener('click', function () {
   }
 });
 
+// --- Слайдер
+var runner = document.querySelector('.upload-effect-level-pin');
+var percentBar = document.querySelector('.upload-effect-level-line');
+
+var getPosition = function () {
+  var obj = runner; // берем интересующий элемент
+  var posX = obj.offsetTop;  // верхний отступ эл-та от родителя
+  var posY = obj.offsetLeft; // левый отступ эл-та от родителя
+  console.log('x=[' + posX + '] y=[' + posY + ']'); // печатаем координаты
+};
+
+
 // --- приминение эффектов
 
 // imgPreview
@@ -176,38 +188,50 @@ for (var e = 0; e < effects.length; e++) {
   });
 }
 
-// --- Слайдер
-var runner = document.querySelector('.upload-effect-level-pin');
+
 
 runner.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
+  getPosition();
 
+  var valueBar = percentBar.offsetWidth;
   var startCoord = {
-    x: evt.clientX
+    y: runner.offsetLeft
   };
+  var currentValue = startCoord / valueBar;
+  var currentEffect = getComputedStyle(document.querySelector('.effect-image-preview'));
+  var effectDone = currentEffect.filter.slice(0, -3);
 
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
+  document.querySelector('.effect-image-preview').setAttribute('style', 'filter :' + effectDone + '(' + currentEffect + ')');
+  console.log(document.querySelector('.effect-image-preview').style);
+  console.log(effectDone);
+  console.log(startCoord);
+  console.log(valueBar);
 
-    var shift = {
-      x: startCoord.x - moveEvt.clientX
-    };
-    startCoord = {
-      x: moveEvt.clientX
-    };
-    runner.style.left = (runner.offsetLeft - shift.x) + 'px';
 
-  };
 
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
-
-    runner.removeEventListener('mousemove', onMouseMove);
-    runner.removeEventListener('mouseup', onMouseUp);
-  };
-
-  runner.addEventListener('mousemove', onMouseMove);
-  runner.addEventListener('mouseup', onMouseUp);
+  // var onMouseMove = function (moveEvt) {
+  //   moveEvt.preventDefault();
+  //
+  //   var shift = {
+  //     x: startCoord.x - runner.offsetLeft
+  //   };
+  //   startCoord = {
+  //     x: moveEvt.offsetLeft
+  //   };
+  //   runner.style.left = (runner.offsetLeft - shift.x) + 'px';
+  //
+  // };
+  //
+  // var onMouseUp = function (upEvt) {
+  //   upEvt.preventDefault();
+  //
+  //   runner.removeEventListener('mousemove', onMouseMove);
+  //   runner.removeEventListener('mouseup', onMouseUp);
+  // };
+  //
+  // runner.addEventListener('mousemove', onMouseMove);
+  // runner.addEventListener('mouseup', onMouseUp);
 
 });
 
@@ -294,17 +318,13 @@ fileName.addEventListener('invalid', function (evt) {
 });
 
 // --- длинна комментария
-description.addEventListener('invalid', function () {
+// description.addEventListener('change', function () {
+//
+//
+//
+//
+// var SUBMITT = document.querySelector('.upload-form-submit')
 
-  var desc = description.value.split('.');
-  console.log(desc);
-
-
-});
-
-
-var SUBMITT = document.querySelector('.upload-form-submit');
-
-SUBMITT.addEventListener('click', function () {
-    // this.submit();
-});
+// SUBMITT.addEventListener('click', function () {
+//     // this.submit();
+// });
