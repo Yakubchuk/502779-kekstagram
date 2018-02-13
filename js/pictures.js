@@ -173,28 +173,38 @@ for (var e = 0; e < effects.length; e++) {
       imgPreview.setAttribute('class', '');
       imgPreview.setAttribute('class', '' + defaultEff + '');
       slider.classList.add('hidden');
+      saveValue.value = 0;
     } else {
       imgPreview.setAttribute('class', '');
       imgPreview.setAttribute('class', '' + newEff + ' ' + defaultEff + '');
       slider.classList.remove('hidden');
+      saveValue.value = 0;
+      imgPreview.style.filter = 'none';
     }
   });
 }
 
 // --- обработка бегунка
 
-runner.addEventListener('mousedown', function (evt) {
+runner.addEventListener('mouseup', function (evt) {
   evt.preventDefault();
   var valueBar = percentBar.offsetWidth;
   var startCoord = runner.offsetLeft;
   var currentValue = startCoord / valueBar;
   var currentEffect = getComputedStyle(document.querySelector('.effect-image-preview'));
-  var effectDone = String(currentEffect.filter.slice(0, -3));
-  imgPreview.style.filter = effectDone + '(' + currentValue + ')';
+  var effectDone = String(currentEffect.filter);
+  effectDone = effectDone.substring(0, effectDone.lastIndexOf('('));
+
+  // aaa = aaa.Substring(0, aaa.LastIndexOf(',') + 1);
+  if (effectDone !== 'invert' || 'blur' || 'brigthness') {
+    imgPreview.style.filter = effectDone + '(' + currentValue + ')';
+    // alert('!!!');
+  }
+  console.log(effectDone);
   saveValue.value = currentValue;
   alert(saveValue.value);
   console.log(currentValue);
-  console.log(effectDone);
+
   console.log(startCoord);
   console.log(valueBar);
 
@@ -233,7 +243,6 @@ var pictures = document.querySelectorAll('.picture');
 var closeButton = document.querySelector('.gallery-overlay-close');
 
 
-
 var onCloseButtonClick = function () {
   mainPicture.classList.add('hidden');
 };
@@ -264,7 +273,7 @@ for (var x = 0; x < pictures.length; x++) {
 
 // --- проверка формы
 var hashTags = document.querySelector('.upload-form-hashtags');
-var description = document.querySelector('.upload-form-description');
+// var description = document.querySelector('.upload-form-description');
 
 var spaceDel = function (str) {
   str = str.replace(/\s/g, '');
