@@ -62,10 +62,10 @@ picturesList.appendChild(fragment);
 
 // --- Заполняем ДОМ данными из первого объекта массива
 
-              // mainPicture.classList.remove('hidden');
-              // mainPicture.querySelector('.gallery-overlay-image').src = photos[0].urls;
-              // mainPicture.querySelector('.likes-count').textContent = photos[0].likes;
-              // mainPicture.querySelector('.comments-count').textContent = photos[0].comments.length;
+// mainPicture.classList.remove('hidden');
+// mainPicture.querySelector('.gallery-overlay-image').src = photos[0].urls;
+// mainPicture.querySelector('.likes-count').textContent = photos[0].likes;
+// mainPicture.querySelector('.comments-count').textContent = photos[0].comments.length;
 
 // --- Upload Form open/close
 
@@ -123,23 +123,32 @@ var buttonInc = document.querySelector('.upload-resize-controls-button-inc');
 var sizeValue = document.querySelector('.upload-resize-controls-value');
 var imgPreview = document.querySelector('.effect-image-preview');
 
-// --- Маштаб Минус
-buttonDec.addEventListener('click', function () {
+// --- Маштаб Плюс
+
+var onSizeIncClick = function () {
   var currentCount = parseInt(sizeValue.value);
   var count = 25;
   if (currentCount - count >= 25) {
     sizeValue.value = currentCount - count + '%';
     imgPreview.style.transform = 'scale(' + (currentCount - count) / 100 + ')';
   }
-});
-// --- Маштаб Плюс
-buttonInc.addEventListener('click', function () {
+};
+// --- Маштаб Минус
+
+var onSizeDecClick = function () {
   var currentCount = parseInt(sizeValue.value);
   var count = 25;
   if (currentCount + count <= 100) {
     sizeValue.value = currentCount + count + '%';
     imgPreview.style.transform = 'scale(' + (currentCount + count) / 100 + ')';
   }
+};
+
+buttonDec.addEventListener('click', function () {
+  onSizeIncClick();
+});
+buttonInc.addEventListener('click', function () {
+  onSizeDecClick();
 });
 
 // --- Слайдер
@@ -153,6 +162,7 @@ var effects = document.querySelectorAll('input[name=effect]');
 var slider = document.querySelector('.upload-effect-level');
 var saveValue = document.querySelector('.upload-effect-level-value');
 
+// --- отмеченный эффект (скрытие слайдера по-умолчанию)
 var getChecked = function () {
   var inp = effects;
   for (var i = 0; i < inp.length; i++) {
@@ -165,6 +175,7 @@ var getChecked = function () {
 };
 getChecked();
 
+// //////////////////////////// ---------------------------- Обработчик событий смены Эффектов -------------------- ///////////////////////////
 for (var e = 0; e < effects.length; e++) {
   effects[e].addEventListener('change', function () {
     var defaultEff = 'effect-image-preview';
@@ -184,8 +195,7 @@ for (var e = 0; e < effects.length; e++) {
   });
 }
 
-// --- обработка бегунка
-
+// //////////////////////////// ---------------------------- обработчик бегунка -------------------- ///////////////////////////
 runner.addEventListener('mouseup', function (evt) {
   evt.preventDefault();
   var valueBar = percentBar.offsetWidth;
@@ -238,15 +248,15 @@ runner.addEventListener('mouseup', function (evt) {
 });
 
 
-// --- открытие миниатюр
+// //////////////////////////// ------------------------- Открытие Миниатюр -------------------- ///////////////////////////
 
 var pictures = document.querySelectorAll('.picture');
 var closeButton = document.querySelector('.gallery-overlay-close');
 
-
 var onCloseButtonClick = function () {
   mainPicture.classList.add('hidden');
 };
+
 var onPicturePrewiewClick = function () {
   mainPicture.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
@@ -272,7 +282,8 @@ for (var x = 0; x < pictures.length; x++) {
   });
 }
 
-// --- проверка формы
+// //////////////////////////// -------------------------  Проверка Формы ------------------------ ///////////////////////////
+
 var hashTags = document.querySelector('.upload-form-hashtags');
 // var description = document.querySelector('.upload-form-description');
 
@@ -283,9 +294,7 @@ var spaceDel = function (str) {
 
 hashTags.addEventListener('change', function () {
   // --- удаляем пробелы  +  приводим к нижнему регистру  +  строка в массив по знаку#
-  // alert(hashTags.value);
   var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
-  // alert(arr);
   arr.shift();
   // --- Проверяем длинну хэш-тега
   for (i = 0; i < arr.length; i++) {
@@ -295,24 +304,15 @@ hashTags.addEventListener('change', function () {
   }
   console.log(arr);
   // --- проверка на совпадения
-  // console.log(arr);
-
   var match = arr.length;
   arr.sort();
-
   while (match--) {
     if (arr[match] === arr[match - 1]) {
       arr.splice(match, 1);
     }
     // console.log(arr);
   }
-  console.log(arr);
 });
-
-
-// var hasWhiteSpace = function(s) {
-//   return s.indexOf(' ') >= 0;
-// };
 
 // --- Отправка формы
 
@@ -326,9 +326,7 @@ fileName.addEventListener('invalid', function (evt) {
 
 // --- длинна комментария
 // description.addEventListener('change', function () {
-//
-//
-//
+
 //
 // var SUBMITT = document.querySelector('.upload-form-submit')
 
