@@ -146,14 +146,6 @@ buttonInc.addEventListener('click', function () {
 var runner = document.querySelector('.upload-effect-level-pin');
 var percentBar = document.querySelector('.upload-effect-level-line');
 
-var getPosition = function () {
-  var obj = runner; // берем интересующий элемент
-  var posX = obj.offsetTop;  // верхний отступ эл-та от родителя
-  var posY = obj.offsetLeft; // левый отступ эл-та от родителя
-  console.log('x=[' + posX + '] y=[' + posY + ']'); // печатаем координаты
-};
-
-
 // --- приминение эффектов
 
 // imgPreview
@@ -188,51 +180,49 @@ for (var e = 0; e < effects.length; e++) {
   });
 }
 
+// --- обработка бегунка
 
-
-runner.addEventListener('mouseup', function (evt) {
+runner.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
-  getPosition();
-
   var valueBar = percentBar.offsetWidth;
-  var startCoord = {
-    y: runner.offsetLeft
-  };
+  var startCoord = runner.offsetLeft;
   var currentValue = startCoord / valueBar;
   var currentEffect = getComputedStyle(document.querySelector('.effect-image-preview'));
-  var effectDone = currentEffect.filter.slice(0, -3);
-
-  console.log(document.querySelector('.effect-image-preview').style);
+  var effectDone = String(currentEffect.filter.slice(0, -3));
+  document.querySelector('.effect-image-preview').style.filter = effectDone + '(' + currentValue + ')';
+  console.log(currentValue);
   console.log(effectDone);
   console.log(startCoord);
   console.log(valueBar);
 
+  // runner.addEventListener('mouseup', function (evt) {
+  //   evt.preventDefault();
+    // var onMouseMove = function (moveEvt) {
+    //   moveEvt.preventDefault();
+    //
+    //   var shift = {
+    //     x: startCoord.x - runner.offsetLeft
+    //   };
+    //   startCoord = {
+    //     x: moveEvt.offsetLeft
+    //   };
+    //   runner.style.left = (runner.offsetLeft - shift.x) + 'px';
+    //
+    // };
+    //
+    // var onMouseUp = function (upEvt) {
+    //   upEvt.preventDefault();
+    //
+    //   runner.removeEventListener('mousemove', onMouseMove);
+    //   runner.removeEventListener('mouseup', onMouseUp);
+    // };
+    //
+    // runner.addEventListener('mousemove', onMouseMove);
+    // runner.addEventListener('mouseup', onMouseUp);
 
-
-  // var onMouseMove = function (moveEvt) {
-  //   moveEvt.preventDefault();
-  //
-  //   var shift = {
-  //     x: startCoord.x - runner.offsetLeft
-  //   };
-  //   startCoord = {
-  //     x: moveEvt.offsetLeft
-  //   };
-  //   runner.style.left = (runner.offsetLeft - shift.x) + 'px';
-  //
-  // };
-  //
-  // var onMouseUp = function (upEvt) {
-  //   upEvt.preventDefault();
-  //
-  //   runner.removeEventListener('mousemove', onMouseMove);
-  //   runner.removeEventListener('mouseup', onMouseUp);
-  // };
-  //
-  // runner.addEventListener('mousemove', onMouseMove);
-  // runner.addEventListener('mouseup', onMouseUp);
-
+  // });
 });
+
 
 // --- открытие миниатюр
 
