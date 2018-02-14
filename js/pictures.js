@@ -298,8 +298,14 @@ var spaceDel = function (str) {
 };
 
 hashTags.addEventListener('change', function () {
+
+  var found = hashTags.value.indexOf('#');
+  if (found === -1) {
+    hashTags.setCustomValidity('Хеш-тег должен начинаться с "#"');
+  };
   // --- удаляем пробелы  +  приводим к нижнему регистру  +  строка в массив по знаку#
   var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
+  console.log(arr);
   arr.shift();
   // --- Проверяем длинну хэш-тега
   for (i = 0; i < arr.length; i++) {
@@ -307,7 +313,7 @@ hashTags.addEventListener('change', function () {
       arr.splice(i, 1);
     }
   }
-  console.log(arr);
+
   // --- проверка на совпадения
   var match = arr.length;
   arr.sort();
@@ -315,19 +321,13 @@ hashTags.addEventListener('change', function () {
     if (arr[match] === arr[match - 1]) {
       arr.splice(match, 1);
     }
-    // console.log(arr);
+    console.log(arr);
   }
 });
 
 // --- Отправка формы
 
 // --- проверка поля File
-var fileName = document.querySelector('.upload-file');
-fileName.addEventListener('invalid', function (evt) {
-  if (fileName.validity.valueMissing) {
-    fileName.setCustomValidity('обязательное поле');
-  }
-});
 
 // --- длинна комментария
 // description.addEventListener('change', function () {
