@@ -207,17 +207,14 @@ var onRunnerShift = function () {
 
 // --- условия определения эффектов вычисление применяемых значений
 
-  if (effectDone !== 'invert' || 'blur' || 'brigthness') {
-    imgPreview.style.filter = effectDone + '(' + currentValue + ')';
-  }
-  if (effectDone === 'invert') {
-    imgPreview.style.filter = effectDone + '(' + currentValue * 100 + '%' + ')';
-  }
-  if (effectDone === 'blur') {
-    imgPreview.style.filter = effectDone + '(' + currentValue * 3 + 'px' + ')';
-  }
-  if (effectDone === 'brightness') {
-    imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')';
+  switch (effectDone) {
+    case 'invert':
+      imgPreview.style.filter = effectDone + '(' + currentValue * 100 + '%' + ')'; break;
+    case 'blur':
+      imgPreview.style.filter = effectDone + '(' + currentValue * 3 + 'px' + ')'; break;
+    case 'brightness':
+      imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')'; break;
+    default: imgPreview.style.filter = effectDone + '(' + currentValue + ')';
   }
 };
 
