@@ -225,7 +225,7 @@ var onRunnerShift = function () {
 runner.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
   var startCoords = {x: evt.clientX};
-  // console.log(startCoords);
+  console.log(startCoords);
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
     var shift = {x: startCoords.x - moveEvt.clientX};
@@ -233,18 +233,22 @@ runner.addEventListener('mousedown', function (evt) {
       x: moveEvt.clientX
     };
     runner.style.left = (runner.offsetLeft - shift.x) + 'px';
+    if (runner.offsetLeft - shift.x < 0 || runner.offsetLeft - shift.x > 460) {
+      document.removeEventListener('mousedown', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+    }
     // console.log(moveEvt);
     onRunnerShift();
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
 
-    runner.removeEventListener('mousemove', onMouseMove);
-    runner.removeEventListener('mousedown', onMouseUp);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mousedown', onMouseUp);
   };
 
-  runner.addEventListener('mousemove', onMouseMove);
-  runner.addEventListener('mouseup', onMouseUp);
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
 // });
 
