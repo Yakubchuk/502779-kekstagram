@@ -196,56 +196,54 @@ for (var e = 0; e < effects.length; e++) {
 }
 
 // //////////////////////////// ---------------------------- обработчик бегунка -------------------- ///////////////////////////
-runner.addEventListener('mouseup', function (evt) {
+// runner.addEventListener('mouseup', function (evt) {
+//   evt.preventDefault();
+//   var valueBar = percentBar.offsetWidth;
+//   var startCoord = runner.offsetLeft;
+//   var currentValue = startCoord / valueBar;
+//   var currentEffect = getComputedStyle(document.querySelector('.effect-image-preview'));
+//   var effectDone = String(currentEffect.filter);
+//   effectDone = effectDone.substring(0, effectDone.lastIndexOf('('));
+//
+// // --- условия определения эффектов вычисление применяемых значений
+//
+//   if (effectDone !== 'invert' || 'blur' || 'brigthness') {
+//     imgPreview.style.filter = effectDone + '(' + currentValue + ')';
+//   }
+//   if (effectDone === 'invert') {
+//     imgPreview.style.filter = effectDone + '(' + currentValue * 100 + '%' + ')';
+//   }
+//   if (effectDone === 'blur') {
+//     imgPreview.style.filter = effectDone + '(' + currentValue * 3 + 'px' + ')';
+//   }
+//   if (effectDone === 'brightness') {
+//     imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')';
+//   }
+//
+runner.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
-  var valueBar = percentBar.offsetWidth;
-  var startCoord = runner.offsetLeft;
-  var currentValue = startCoord / valueBar;
-  var currentEffect = getComputedStyle(document.querySelector('.effect-image-preview'));
-  var effectDone = String(currentEffect.filter);
-  effectDone = effectDone.substring(0, effectDone.lastIndexOf('('));
+  var startCoords = {x: evt.clientX};
+  // console.log(startCoords);
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    var shift = {x: startCoords.x - moveEvt.clientX};
+    startCoords = {
+      x: moveEvt.clientX
+    };
+    runner.style.left = (runner.offsetLeft - shift.x) + 'px';
+    // console.log(moveEvt);
+  };
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
 
-// --- условия определения эффектов вычисление применяемых значений
+    runner.removeEventListener('mousemove', onMouseMove);
+    runner.removeEventListener('mousedown', onMouseUp);
+  };
 
-  if (effectDone !== 'invert' || 'blur' || 'brigthness') {
-    imgPreview.style.filter = effectDone + '(' + currentValue + ')';
-  }
-  if (effectDone === 'invert') {
-    imgPreview.style.filter = effectDone + '(' + currentValue * 100 + '%' + ')';
-  }
-  if (effectDone === 'blur') {
-    imgPreview.style.filter = effectDone + '(' + currentValue * 3 + 'px' + ')';
-  }
-  if (effectDone === 'brightness') {
-    imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')';
-  }
-
-  // runner.addEventListener('mouseup', function (evt) {
-  //   evt.preventDefault();
-  // var onMouseMove = function (moveEvt) {
-  //   moveEvt.preventDefault();
-  //
-  //   var shift = {
-  //     x: startCoord.x - runner.offsetLeft
-  //   };
-  //   startCoord = {
-  //     x: moveEvt.offsetLeft
-  //   };
-  //   runner.style.left = (runner.offsetLeft - shift.x) + 'px';
-  //
-  // };
-  //
-  // var onMouseUp = function (upEvt) {
-  //   upEvt.preventDefault();
-  //
-  //   runner.removeEventListener('mousemove', onMouseMove);
-  //   runner.removeEventListener('mouseup', onMouseUp);
-  // };
-  //
-  // runner.addEventListener('mousemove', onMouseMove);
-  // runner.addEventListener('mouseup', onMouseUp);
-  // });
+  runner.addEventListener('mousemove', onMouseMove);
+  runner.addEventListener('mouseup', onMouseUp);
 });
+// });
 
 
 // //////////////////////////// ------------------------- Открытие Миниатюр -------------------- ///////////////////////////
