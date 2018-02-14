@@ -181,13 +181,13 @@ for (var e = 0; e < effects.length; e++) {
     var defaultEff = 'effect-image-preview';
     var newEff = this.id.slice(7);
     if (newEff === 'effect-none') {
-      imgPreview.setAttribute('class', '');
-      imgPreview.setAttribute('class', '' + defaultEff + '');
+      imgPreview.className = '';
+      imgPreview.classList.add(defaultEff);
       slider.classList.add('hidden');
       saveValue.value = 0;
     } else {
-      imgPreview.setAttribute('class', '');
-      imgPreview.setAttribute('class', '' + newEff + ' ' + defaultEff + '');
+      imgPreview.className = defaultEff;
+      imgPreview.classList.add(newEff);
       slider.classList.remove('hidden');
       saveValue.value = 0;
       imgPreview.style = '';
@@ -196,29 +196,34 @@ for (var e = 0; e < effects.length; e++) {
 }
 
 // //////////////////////////// ---------------------------- обработчик бегунка -------------------- ///////////////////////////
+var onRunnerShift = function () {
+  // evt.preventDefault();
+  var valueBar = percentBar.offsetWidth;
+  var startCoord = runner.offsetLeft;
+  var currentValue = startCoord / valueBar;
+  var currentEffect = getComputedStyle(document.querySelector('.effect-image-preview'));
+  var effectDone = String(currentEffect.filter);
+  effectDone = effectDone.substring(0, effectDone.lastIndexOf('('));
+
+// --- условия определения эффектов вычисление применяемых значений
+
+  if (effectDone !== 'invert' || 'blur' || 'brigthness') {
+    imgPreview.style.filter = effectDone + '(' + currentValue + ')';
+  }
+  if (effectDone === 'invert') {
+    imgPreview.style.filter = effectDone + '(' + currentValue * 100 + '%' + ')';
+  }
+  if (effectDone === 'blur') {
+    imgPreview.style.filter = effectDone + '(' + currentValue * 3 + 'px' + ')';
+  }
+  if (effectDone === 'brightness') {
+    imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')';
+  }
+};
+
 // runner.addEventListener('mouseup', function (evt) {
-//   evt.preventDefault();
-//   var valueBar = percentBar.offsetWidth;
-//   var startCoord = runner.offsetLeft;
-//   var currentValue = startCoord / valueBar;
-//   var currentEffect = getComputedStyle(document.querySelector('.effect-image-preview'));
-//   var effectDone = String(currentEffect.filter);
-//   effectDone = effectDone.substring(0, effectDone.lastIndexOf('('));
 //
-// // --- условия определения эффектов вычисление применяемых значений
-//
-//   if (effectDone !== 'invert' || 'blur' || 'brigthness') {
-//     imgPreview.style.filter = effectDone + '(' + currentValue + ')';
-//   }
-//   if (effectDone === 'invert') {
-//     imgPreview.style.filter = effectDone + '(' + currentValue * 100 + '%' + ')';
-//   }
-//   if (effectDone === 'blur') {
-//     imgPreview.style.filter = effectDone + '(' + currentValue * 3 + 'px' + ')';
-//   }
-//   if (effectDone === 'brightness') {
-//     imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')';
-//   }
+// });
 //
 runner.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
@@ -232,6 +237,7 @@ runner.addEventListener('mousedown', function (evt) {
     };
     runner.style.left = (runner.offsetLeft - shift.x) + 'px';
     // console.log(moveEvt);
+    onRunnerShift();
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
