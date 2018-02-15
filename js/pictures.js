@@ -180,9 +180,9 @@ var getChecked = function () {
 getChecked();
 
 // //////////////////////////// ---------------------------- Обработчик событий смены Эффектов -------------------- ///////////////////////////
-var getEffects = function (curEff) {
+var getEffects = function () {
   for (var e = 0; e < effects.length; e++) {
-    curEff[e].addEventListener('change', function () {
+    effects[e].addEventListener('change', function () {
       var defaultEff = 'effect-image-preview';
       var newEff = this.id.slice(7);
       if (newEff === 'effect-none') {
@@ -195,7 +195,8 @@ var getEffects = function (curEff) {
         imgPreview.className = defaultEff;
         imgPreview.classList.add(newEff);
         slider.classList.remove('hidden');
-        saveValue.value = 0;
+        saveValue.value = 100;
+        console.log(saveValue);
         imgPreview.style = '';
         groundColor.style.width = '100%';
         runner.style.left = '460px';
@@ -225,15 +226,15 @@ var onRunnerShift = function () {
       break;
     case 'blur':
       imgPreview.style.filter = effectDone + '(' + currentValue * 3 + 'px' + ')';
-      saveValue.value = (currentValue * 3).toFixed(2);
+      saveValue.value = Math.round(currentValue * 100);
       break;
     case 'brightness':
       imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')';
-      saveValue.value = (currentValue * 3).toFixed(2);
+      saveValue.value = Math.round(currentValue * 100);
       break;
     default:
       imgPreview.style.filter = effectDone + '(' + currentValue + ')';
-      saveValue.value = currentValue.toFixed(2);
+      saveValue.value = Math.round(currentValue * 100);
   }
 };
 
