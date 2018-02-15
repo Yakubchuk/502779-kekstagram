@@ -180,28 +180,32 @@ var getChecked = function () {
 getChecked();
 
 // //////////////////////////// ---------------------------- Обработчик событий смены Эффектов -------------------- ///////////////////////////
-for (var e = 0; e < effects.length; e++) {
-  effects[e].addEventListener('change', function () {
-    var defaultEff = 'effect-image-preview';
-    var newEff = this.id.slice(7);
-    if (newEff === 'effect-none') {
-      imgPreview.className = '';
-      imgPreview.classList.add(defaultEff);
-      slider.classList.add('hidden');
-      imgPreview.style.filter = '';
-      saveValue.value = 0;
-    } else {
-      imgPreview.className = defaultEff;
-      imgPreview.classList.add(newEff);
-      slider.classList.remove('hidden');
-      saveValue.value = 0;
-      imgPreview.style = '';
-      groundColor.style.width = '100%';
-      runner.style.left = '460px';
+var getEffects = function (curEff) {
+  for (var e = 0; e < effects.length; e++) {
+    curEff[e].addEventListener('change', function () {
+      var defaultEff = 'effect-image-preview';
+      var newEff = this.id.slice(7);
+      if (newEff === 'effect-none') {
+        imgPreview.className = '';
+        imgPreview.classList.add(defaultEff);
+        slider.classList.add('hidden');
+        imgPreview.style.filter = '';
+        saveValue.value = 0;
+      } else {
+        imgPreview.className = defaultEff;
+        imgPreview.classList.add(newEff);
+        slider.classList.remove('hidden');
+        saveValue.value = 0;
+        imgPreview.style = '';
+        groundColor.style.width = '100%';
+        runner.style.left = '460px';
+      }
+    });
+  }
+};
 
-    }
-  });
-}
+getEffects(effects);
+
 
 // //////////////////////////// ---------------------------- обработчик бегунка -------------------- ///////////////////////////
 var onRunnerShift = function () {
@@ -232,10 +236,7 @@ var onRunnerShift = function () {
       saveValue.value = currentValue.toFixed(2);
   }
 };
-// runner.addEventListener('mouseup', function (evt) {
-//
-// });
-//
+
 runner.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
   var startCoords = {x: evt.clientX};
@@ -262,8 +263,6 @@ runner.addEventListener('mousedown', function (evt) {
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 });
-// });
-
 
 // //////////////////////////// ------------------------- Открытие Миниатюр -------------------- ///////////////////////////
 
