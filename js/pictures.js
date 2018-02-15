@@ -115,7 +115,6 @@ formClose.addEventListener('click', function () {
   cleaningInput();
 });
 
-
 // --- Редактирование изображения
 
 var buttonDec = document.querySelector('.upload-resize-controls-button-dec');
@@ -133,6 +132,7 @@ var onSizeIncClick = function () {
     imgPreview.style.transform = 'scale(' + (currentCount - count) / 100 + ')';
   }
 };
+
 // --- Маштаб Минус
 
 var onSizeDecClick = function () {
@@ -147,6 +147,7 @@ var onSizeDecClick = function () {
 buttonDec.addEventListener('click', function () {
   onSizeIncClick();
 });
+
 buttonInc.addEventListener('click', function () {
   onSizeDecClick();
 });
@@ -206,14 +207,13 @@ for (var e = 0; e < effects.length; e++) {
 var onRunnerShift = function () {
   // evt.preventDefault();
   var valueBar = percentBar.offsetWidth;
-  var startCoord = runner.offsetLeft;
-  var currentValue = startCoord / valueBar;
+  var startCord = runner.offsetLeft;
+  var currentValue = startCord / valueBar;
   var currentEffect = getComputedStyle(imgPreview);
   var effectDone = String(currentEffect.filter);
   effectDone = effectDone.substring(0, effectDone.lastIndexOf('('));
-  groundColor.style.width = (startCoord / valueBar) * 100 + '%';
-// --- условия определения эффектов вычисление применяемых значений
-
+  groundColor.style.width = (startCord / valueBar) * 100 + '%';
+  // --- условия определения эффектов вычисление применяемых значений
   switch (effectDone) {
     case 'invert':
       imgPreview.style.filter = effectDone + '(' + currentValue * 100 + '%' + ')';
@@ -227,11 +227,11 @@ var onRunnerShift = function () {
       imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')';
       saveValue.value = (currentValue * 3).toFixed(2);
       break;
-    default: imgPreview.style.filter = effectDone + '(' + currentValue + ')';
+    default:
+      imgPreview.style.filter = effectDone + '(' + currentValue + ')';
       saveValue.value = currentValue.toFixed(2);
   }
 };
-
 // runner.addEventListener('mouseup', function (evt) {
 //
 // });
@@ -251,7 +251,6 @@ runner.addEventListener('mousedown', function (evt) {
       document.removeEventListener('mousedown', onMouseUp);
       document.removeEventListener('mousemove', onMouseMove);
     }
-    // console.log(moveEvt);
     onRunnerShift();
   };
   var onMouseUp = function (upEvt) {
@@ -315,14 +314,12 @@ hashTags.addEventListener('change', function () {
 
   var found = hashTags.value.indexOf('#');
   if (found === -1) {
-    // hashTags.value = '#' + hashTags.value;
     hashTags.setCustomValidity('надо #');
   } else {
     hashTags.setCustomValidity('');
   }
   // --- удаляем пробелы  +  приводим к нижнему регистру  +  строка в массив по знаку#
   var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
-  // console.log(arr);
   arr.shift();
   // --- Проверяем длинну хэш-тега
   for (i = 0; i < arr.length; i++) {
@@ -330,7 +327,6 @@ hashTags.addEventListener('change', function () {
       arr.splice(i, 1);
     }
   }
-  // console.log(arr);
   // --- проверка на совпадения
   var match = arr.length;
   arr.sort();
@@ -339,7 +335,6 @@ hashTags.addEventListener('change', function () {
       arr.splice(match, 1);
     }
   }
-  // console.log(arr);
   hashTags.value = '#' + arr.join(' #');
 });
 // --- Отправка формы
@@ -356,6 +351,7 @@ description.addEventListener('change', function () {
     description.style.borderColor = '#E82C31';
   } else {
     description.setCustomValidity('');
+    description.style.borderColor = 'inherit';
   }
 });
 // var SUBMITT = document.querySelector('.upload-form-submit')
