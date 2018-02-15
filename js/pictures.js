@@ -171,6 +171,7 @@ var getChecked = function () {
     if (inp[i].type === 'radio' && inp[i].checked) {
       if (inp[i].value === 'none') {
         slider.classList.add('hidden');
+        saveValue.value = 0;
       }
     }
   }
@@ -352,6 +353,7 @@ description.addEventListener('keydown', function (evt) {
 description.addEventListener('change', function () {
   if (description.value.length > 140) {
     description.setCustomValidity('Максимальная длинна комментария 140символов!');
+    description.style.borderColor = '#E82C31';
   } else {
     description.setCustomValidity('');
   }
