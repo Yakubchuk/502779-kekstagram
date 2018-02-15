@@ -125,7 +125,7 @@ var imgPreview = document.querySelector('.effect-image-preview');
 // --- Маштаб Плюс
 
 var onSizeIncClick = function () {
-  var currentCount = parseInt(sizeValue.value);
+  var currentCount = parseInt(sizeValue.value, 0);
   var count = 25;
   if (currentCount - count >= 25) {
     sizeValue.value = currentCount - count + '%';
@@ -136,7 +136,7 @@ var onSizeIncClick = function () {
 // --- Маштаб Минус
 
 var onSizeDecClick = function () {
-  var currentCount = parseInt(sizeValue.value);
+  var currentCount = parseInt(sizeValue.value, 0);
   var count = 25;
   if (currentCount + count <= 100) {
     sizeValue.value = currentCount + count + '%';
@@ -168,9 +168,9 @@ var saveValue = document.querySelector('.upload-effect-level-value');
 // --- отмеченный эффект (скрытие слайдера по-умолчанию)
 var getChecked = function () {
   var inp = effects;
-  for (var i = 0; i < inp.length; i++) {
-    if (inp[i].type === 'radio' && inp[i].checked) {
-      if (inp[i].value === 'none') {
+  for (var o = 0; o < inp.length; o++) {
+    if (inp[o].type === 'radio' && inp[o].checked) {
+      if (inp[o].value === 'none') {
         slider.classList.add('hidden');
         saveValue.value = 0;
       }
@@ -239,7 +239,6 @@ var onRunnerShift = function () {
 runner.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
   var startCoords = {x: evt.clientX};
-  console.log(startCoords);
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
     var shift = {x: startCoords.x - moveEvt.clientX};
