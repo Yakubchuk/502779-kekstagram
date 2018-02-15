@@ -154,12 +154,14 @@ buttonInc.addEventListener('click', function () {
 // --- Слайдер
 var runner = document.querySelector('.upload-effect-level-pin');
 var percentBar = document.querySelector('.upload-effect-level-line');
+var groundColor = document.querySelector('.upload-effect-level-val');
 
 // --- приминение эффектов
 
 // imgPreview
 var effects = document.querySelectorAll('input[name=effect]');
 var slider = document.querySelector('.upload-effect-level');
+// var effValue = document.querySelector('.upload-effect-level-value');
 var saveValue = document.querySelector('.upload-effect-level-value');
 
 // --- отмеченный эффект (скрытие слайдера по-умолчанию)
@@ -184,6 +186,7 @@ for (var e = 0; e < effects.length; e++) {
       imgPreview.className = '';
       imgPreview.classList.add(defaultEff);
       slider.classList.add('hidden');
+      imgPreview.style.filter = '';
       saveValue.value = 0;
     } else {
       imgPreview.className = defaultEff;
@@ -191,6 +194,9 @@ for (var e = 0; e < effects.length; e++) {
       slider.classList.remove('hidden');
       saveValue.value = 0;
       imgPreview.style = '';
+      groundColor.style.width = '100%';
+      runner.style.left = '460px';
+
     }
   });
 }
@@ -201,20 +207,27 @@ var onRunnerShift = function () {
   var valueBar = percentBar.offsetWidth;
   var startCoord = runner.offsetLeft;
   var currentValue = startCoord / valueBar;
-  var currentEffect = getComputedStyle(document.querySelector('.effect-image-preview'));
+  var currentEffect = getComputedStyle(imgPreview);
   var effectDone = String(currentEffect.filter);
   effectDone = effectDone.substring(0, effectDone.lastIndexOf('('));
-
+  groundColor.style.width = (startCoord / valueBar) * 100 + '%';
 // --- условия определения эффектов вычисление применяемых значений
 
   switch (effectDone) {
     case 'invert':
-      imgPreview.style.filter = effectDone + '(' + currentValue * 100 + '%' + ')'; break;
+      imgPreview.style.filter = effectDone + '(' + currentValue * 100 + '%' + ')';
+      saveValue.value = Math.round(currentValue * 100);
+      break;
     case 'blur':
-      imgPreview.style.filter = effectDone + '(' + currentValue * 3 + 'px' + ')'; break;
+      imgPreview.style.filter = effectDone + '(' + currentValue * 3 + 'px' + ')';
+      saveValue.value = (currentValue * 3).toFixed(2);
+      break;
     case 'brightness':
-      imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')'; break;
+      imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')';
+      saveValue.value = (currentValue * 3).toFixed(2);
+      break;
     default: imgPreview.style.filter = effectDone + '(' + currentValue + ')';
+      saveValue.value = currentValue.toFixed(2);
   }
 };
 
@@ -290,7 +303,7 @@ for (var x = 0; x < pictures.length; x++) {
 // //////////////////////////// -------------------------  Проверка Формы ------------------------ ///////////////////////////
 
 var hashTags = document.querySelector('.upload-form-hashtags');
-// var description = document.querySelector('.upload-form-description');
+var description = document.querySelector('.upload-form-description');
 
 var spaceDel = function (str) {
   str = str.replace(/\s/g, '');
@@ -301,19 +314,22 @@ hashTags.addEventListener('change', function () {
 
   var found = hashTags.value.indexOf('#');
   if (found === -1) {
-    hashTags.setCustomValidity('Хеш-тег должен начинаться с "#"');
-  };
+    // hashTags.value = '#' + hashTags.value;
+    hashTags.setCustomValidity('надо #');
+  } else {
+    hashTags.setCustomValidity('');
+  }
   // --- удаляем пробелы  +  приводим к нижнему регистру  +  строка в массив по знаку#
   var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
-  console.log(arr);
+  // console.log(arr);
   arr.shift();
   // --- Проверяем длинну хэш-тега
   for (i = 0; i < arr.length; i++) {
-    if (arr[i].length >= 20) {
+    if (arr[i].length >= 19) {
       arr.splice(i, 1);
     }
   }
-
+  // console.log(arr);
   // --- проверка на совпадения
   var match = arr.length;
   arr.sort();
@@ -321,18 +337,25 @@ hashTags.addEventListener('change', function () {
     if (arr[match] === arr[match - 1]) {
       arr.splice(match, 1);
     }
-    console.log(arr);
   }
+  // console.log(arr);
+  hashTags.value = '#' + arr.join(' #');
 });
-
 // --- Отправка формы
 
 // --- проверка поля File
 
 // --- длинна комментария
-// description.addEventListener('change', function () {
-
-//
+description.addEventListener('keydown', function (evt) {
+  evt.stopPropagation();
+});
+description.addEventListener('change', function () {
+  if (description.value.length > 140) {
+    description.setCustomValidity('Максимальная длинна комментария 140символов!');
+  } else {
+    description.setCustomValidity('');
+  }
+});
 // var SUBMITT = document.querySelector('.upload-form-submit')
 
 // SUBMITT.addEventListener('click', function () {
