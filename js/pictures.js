@@ -303,6 +303,8 @@ for (var x = 0; x < pictures.length; x++) {
 
 var hashTags = document.querySelector('.upload-form-hashtags');
 var description = document.querySelector('.upload-form-description');
+var BAD = '#E82C31';
+var GOOD = 'inherit';
 
 var spaceDel = function (str) {
   str = str.replace(/\s/g, '');
@@ -312,12 +314,16 @@ var spaceDel = function (str) {
 hashTags.addEventListener('change', function () {
 
   var found = hashTags.value.indexOf('#');
+
   if (found === -1) {
-    hashTags.setCustomValidity('надо #');
-    hashTags.style.borderColor = '#E82C31';
+    hashTags.setCustomValidity('Хеш-тег должен начинаться с #');
+    hashTags.style.borderColor = BAD;
+    hashTags.style.outlineColor = BAD;
+
   } else {
     hashTags.setCustomValidity('');
-    hashTags.style.borderColor = 'inherit';
+    hashTags.style.borderColor = GOOD;
+    hashTags.style.outlineColor = GOOD;
     // --- удаляем пробелы  +  приводим к нижнему регистру  +  строка в массив по знаку#
     var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
     arr.shift();
@@ -339,13 +345,13 @@ hashTags.addEventListener('change', function () {
     if (arr[0] !== undefined) {
       hashTags.value = '#' + arr.join(' #');
       hashTags.setCustomValidity('');
-      hashTags.style.outlineColor = 'inherit';
-      hashTags.style.borderColor = 'inherit';
+      hashTags.style.outlineColor = GOOD;
+      hashTags.style.borderColor = GOOD;
     } else {
       hashTags.value = '';
       hashTags.setCustomValidity('Слишком длинный Хеш-Тег');
-      hashTags.style.borderColor = '#E82C31';
-      hashTags.style.outlineColor = '#E82C31';
+      hashTags.style.borderColor = BAD;
+      hashTags.style.outlineColor = BAD;
     }
   }
 });
@@ -361,12 +367,12 @@ description.checkValidity();
 description.addEventListener('change', function () {
   if (description.value.length > 140) {
     description.setCustomValidity('Максимальная длинна комментария 140символов!');
-    description.style.borderColor = '#E82C31';
-    description.style.outlineColor = '#E82C31';
+    description.style.borderColor = BAD;
+    description.style.outlineColor = BAD;
   } else {
     description.setCustomValidity('');
-    description.style.outlineColor = 'inherit';
-    description.style.borderColor = 'inherit';
+    description.style.outlineColor = GOOD;
+    description.style.borderColor = GOOD;
   }
 });
 // var SUBMITT = document.querySelector('.upload-form-submit')
