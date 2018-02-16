@@ -314,27 +314,40 @@ hashTags.addEventListener('change', function () {
   var found = hashTags.value.indexOf('#');
   if (found === -1) {
     hashTags.setCustomValidity('надо #');
+    hashTags.style.borderColor = '#E82C31';
   } else {
     hashTags.setCustomValidity('');
-  }
-  // --- удаляем пробелы  +  приводим к нижнему регистру  +  строка в массив по знаку#
-  var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
-  arr.shift();
-  // --- Проверяем длинну хэш-тега
-  for (i = 0; i < arr.length; i++) {
-    if (arr[i].length >= 19) {
-      arr.splice(i, 1);
+    hashTags.style.borderColor = 'inherit';
+    // --- удаляем пробелы  +  приводим к нижнему регистру  +  строка в массив по знаку#
+    var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
+    arr.shift();
+    // --- Проверяем длинну хэш-тега
+    for (i = 0; i < arr.length; i++) {
+      if (arr[i].length >= 19) {
+        arr.splice(i, 1);
+      }
+    }
+    // --- проверка на совпадения
+    var match = arr.length;
+    arr.sort();
+    while (match--) {
+      if (arr[match] === arr[match - 1]) {
+        arr.splice(match, 1);
+      }
+    }
+    console.log(arr[0]);
+    if (arr[0] !== undefined) {
+      hashTags.value = '#' + arr.join(' #');
+      hashTags.setCustomValidity('');
+      hashTags.style.outlineColor = 'inherit';
+      hashTags.style.borderColor = 'inherit';
+    } else {
+      hashTags.value = '';
+      hashTags.setCustomValidity('Слишком длинный Хеш-Тег');
+      hashTags.style.borderColor = '#E82C31';
+      hashTags.style.outlineColor = '#E82C31';
     }
   }
-  // --- проверка на совпадения
-  var match = arr.length;
-  arr.sort();
-  while (match--) {
-    if (arr[match] === arr[match - 1]) {
-      arr.splice(match, 1);
-    }
-  }
-  hashTags.value = '#' + arr.join(' #');
 });
 // --- Отправка формы
 
@@ -344,12 +357,15 @@ hashTags.addEventListener('change', function () {
 description.addEventListener('keydown', function (evt) {
   evt.stopPropagation();
 });
+description.checkValidity();
 description.addEventListener('change', function () {
   if (description.value.length > 140) {
     description.setCustomValidity('Максимальная длинна комментария 140символов!');
     description.style.borderColor = '#E82C31';
+    description.style.outlineColor = '#E82C31';
   } else {
     description.setCustomValidity('');
+    description.style.outlineColor = 'inherit';
     description.style.borderColor = 'inherit';
   }
 });
