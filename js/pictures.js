@@ -337,6 +337,7 @@ hashTags.addEventListener('change', function () {
         flag = true;
         // arr.splice(i, 1);
       } else {
+
         var match = arr.length;
         arr.sort();
         while (match--) {
@@ -362,6 +363,7 @@ hashTags.addEventListener('change', function () {
       hashTags.setCustomValidity('Длинна одного Хеш-тега не должна превышеть 20 символов');
       hashTags.style.borderColor = BAD;
       hashTags.style.outlineColor = BAD;
+      flag = false;
     } else {
       hashTags.setCustomValidity('');
       hashTags.style.outlineColor = GOOD;
