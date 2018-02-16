@@ -310,7 +310,7 @@ var spaceDel = function (str) {
   str = str.replace(/\s/g, '');
   return str;
 };
-
+var flag = false;
 hashTags.addEventListener('change', function () {
 
   var found = hashTags.value.indexOf('#');
@@ -328,32 +328,48 @@ hashTags.addEventListener('change', function () {
     var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
     arr.shift();
     // --- Проверяем длинну хэш-тега
-    for (i = 0; i < arr.length; i++) {
-      if (arr[i].length >= 19) {
-        arr.splice(i, 1);
+    // for (i = 0; i < arr.length; i++)
+    var mass = arr.length;
+
+    while (mass--) {
+      if (arr[mass].length >= 19) {
+        console.log(arr[mass].length);
+        flag = true;
+        // arr.splice(i, 1);
+      } else {
+        var match = arr.length;
+        arr.sort();
+        while (match--) {
+          if (arr[match] === arr[match - 1]) {
+            arr.splice(match, 1);
+          }
+        }
+        // console.log(arr[0]);
+        if (arr[0] !== undefined) {
+          hashTags.value = '#' + arr.join(' #');
+          hashTags.setCustomValidity('');
+          hashTags.style.outlineColor = GOOD;
+          hashTags.style.borderColor = GOOD;
+        } else {
+          hashTags.value = '';
+          hashTags.setCustomValidity('Слишком длинный Хеш-Тег');
+          hashTags.style.borderColor = BAD;
+          hashTags.style.outlineColor = BAD;
+        }
       }
     }
-    // --- проверка на совпадения
-    var match = arr.length;
-    arr.sort();
-    while (match--) {
-      if (arr[match] === arr[match - 1]) {
-        arr.splice(match, 1);
-      }
-    }
-    console.log(arr[0]);
-    if (arr[0] !== undefined) {
-      hashTags.value = '#' + arr.join(' #');
+    if (flag) {
+      hashTags.setCustomValidity('Длинна одного Хеш-тега не должна превышеть 20 символов');
+      hashTags.style.borderColor = BAD;
+      hashTags.style.outlineColor = BAD;
+    } else {
       hashTags.setCustomValidity('');
       hashTags.style.outlineColor = GOOD;
       hashTags.style.borderColor = GOOD;
-    } else {
-      hashTags.value = '';
-      hashTags.setCustomValidity('Слишком длинный Хеш-Тег');
-      hashTags.style.borderColor = BAD;
-      hashTags.style.outlineColor = BAD;
     }
   }
+  // --- проверка на совпадения
+
 });
 // --- Отправка формы
 
