@@ -310,7 +310,6 @@ var spaceDel = function (str) {
   str = str.replace(/\s/g, '');
   return str;
 };
-var flag = false;
 hashTags.addEventListener('change', function () {
 
   var found = hashTags.value.indexOf('#');
@@ -328,15 +327,18 @@ hashTags.addEventListener('change', function () {
     var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
     arr.shift();
     // --- Проверяем длинну хэш-тега
-    var mass = arr.length;
-    while (mass--) {
-      if (arr[mass].length >= 19) {
-        flag = true;
+
+    for (var l = 0; l <= arr.length; l++) {
+      if (arr[l].length > 19) {
+        hashTags.setCustomValidity('Длинна одного Хеш-тега не должна превышеть 20 символов');
+        hashTags.style.borderColor = BAD;
+        hashTags.style.outlineColor = BAD;
         break;
-        // arr.splice(i, 1);
       } else {
-        flag = false;
         // --- проверка на совпадения
+        hashTags.setCustomValidity('');
+        hashTags.style.outlineColor = GOOD;
+        hashTags.style.borderColor = GOOD;
         var match = arr.length;
         arr.sort();
         while (match--) {
@@ -344,7 +346,6 @@ hashTags.addEventListener('change', function () {
             arr.splice(match, 1);
           }
         }
-        // console.log(arr[0]);
         if (arr[0] !== undefined) {
           hashTags.value = '#' + arr.join(' #');
           hashTags.setCustomValidity('');
@@ -357,15 +358,6 @@ hashTags.addEventListener('change', function () {
           hashTags.style.outlineColor = BAD;
         }
       }
-    }
-    if (flag) {
-      hashTags.setCustomValidity('Длинна одного Хеш-тега не должна превышеть 20 символов');
-      hashTags.style.borderColor = BAD;
-      hashTags.style.outlineColor = BAD;
-    } else {
-      hashTags.setCustomValidity('');
-      hashTags.style.outlineColor = GOOD;
-      hashTags.style.borderColor = GOOD;
     }
   }
 });
