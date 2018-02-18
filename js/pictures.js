@@ -327,8 +327,15 @@ hashTags.addEventListener('change', function () {
     var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
     arr.shift();
     // --- Проверяем длинну хэш-тега
-
-    for (var l = 0; l <= arr.length; l++) {
+    arr.sort();
+    var match = arr.length;
+    while (match--) {
+      if (arr[match] === arr[match - 1]) {
+        arr.splice(match, 1);
+      }
+    }
+    for (var l = 0; l < arr.length; l++) {
+      console.log(arr[l]);
       if (arr[l].length > 19) {
         hashTags.setCustomValidity('Длинна одного Хеш-тега не должна превышеть 20 символов');
         hashTags.style.borderColor = BAD;
@@ -339,13 +346,7 @@ hashTags.addEventListener('change', function () {
         hashTags.setCustomValidity('');
         hashTags.style.outlineColor = GOOD;
         hashTags.style.borderColor = GOOD;
-        var match = arr.length;
-        arr.sort();
-        while (match--) {
-          if (arr[match] === arr[match - 1]) {
-            arr.splice(match, 1);
-          }
-        }
+
         if (arr[0] !== undefined) {
           hashTags.value = '#' + arr.join(' #');
           hashTags.setCustomValidity('');
