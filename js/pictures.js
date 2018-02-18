@@ -323,17 +323,19 @@ hashTags.addEventListener('change', function () {
     hashTags.setCustomValidity('');
     hashTags.style.borderColor = GOOD;
     hashTags.style.outlineColor = GOOD;
-    // --- удаляем пробелы  +  приводим к нижнему регистру  +  строка в массив по знаку#
+    // --- удаляем пробелы  +  приводим к нижнему регистру  +  строка в массив по знаку# + сортируем массив
     var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
     arr.shift();
-    // --- Проверяем длинну хэш-тега
+
     arr.sort();
+    // --- проверка на совпадения
     var match = arr.length;
     while (match--) {
       if (arr[match] === arr[match - 1]) {
         arr.splice(match, 1);
       }
     }
+    // --- Проверяем длинну хэш-тега
     for (var l = 0; l < arr.length; l++) {
       console.log(arr[l]);
       if (arr[l].length > 19) {
@@ -342,21 +344,15 @@ hashTags.addEventListener('change', function () {
         hashTags.style.outlineColor = BAD;
         break;
       } else {
-        // --- проверка на совпадения
         hashTags.setCustomValidity('');
         hashTags.style.outlineColor = GOOD;
         hashTags.style.borderColor = GOOD;
-
+        // --- условие на пустой массив, если нет, выводим хеш-теги
         if (arr[0] !== undefined) {
           hashTags.value = '#' + arr.join(' #');
           hashTags.setCustomValidity('');
           hashTags.style.outlineColor = GOOD;
           hashTags.style.borderColor = GOOD;
-        } else {
-          hashTags.value = '';
-          hashTags.setCustomValidity('Слишком длинный Хеш-Тег');
-          hashTags.style.borderColor = BAD;
-          hashTags.style.outlineColor = BAD;
         }
       }
     }
