@@ -196,7 +196,6 @@ var getEffects = function () {
         imgPreview.classList.add(newEff);
         slider.classList.remove('hidden');
         saveValue.value = 100;
-        console.log(saveValue);
         imgPreview.style = '';
         groundColor.style.width = '100%';
         runner.style.left = '460px';
@@ -256,11 +255,9 @@ runner.addEventListener('mousedown', function (evt) {
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mousedown', onMouseUp);
   };
-
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 });
@@ -269,7 +266,6 @@ runner.addEventListener('mousedown', function (evt) {
 
 var pictures = document.querySelectorAll('.picture');
 var closeButton = document.querySelector('.gallery-overlay-close');
-
 var onCloseButtonClick = function () {
   mainPicture.classList.add('hidden');
 };
@@ -313,47 +309,64 @@ var spaceDel = function (str) {
 hashTags.addEventListener('change', function () {
 
   var found = hashTags.value.indexOf('#');
+  var valueTag = document.querySelector('.upload-form-hashtags').value;
+  var reg = /\s/g;
+  // var pos = 0;
+  var hash = '#';
+  var spaces = ' ';
 
-  if (found === -1) {
+  var posSpace = 0;
+  var posHash = 0;
+
+  if ( valueTag.charAt(0) !== '#') {
+    alert('ошибка');
     hashTags.setCustomValidity('Хеш-тег должен начинаться с #');
     hashTags.style.borderColor = BAD;
     hashTags.style.outlineColor = BAD;
-
   } else {
     hashTags.setCustomValidity('');
     hashTags.style.borderColor = GOOD;
     hashTags.style.outlineColor = GOOD;
-    // --- удаляем пробелы  +  приводим к нижнему регистру  +  строка в массив по знаку# + сортируем массив
-    var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
-    arr.shift();
 
-    arr.sort();
-    // --- проверка на совпадения
-    var match = arr.length;
-    while (match--) {
-      if (arr[match] === arr[match - 1]) {
-        arr.splice(match, 1);
-      }
-    }
-    // --- Проверяем длинну хэш-тега
-    for (var l = 0; l < arr.length; l++) {
-      console.log(arr[l]);
-      if (arr[l].length > 19) {
-        hashTags.setCustomValidity('Длинна одного Хеш-тега не должна превышеть 20 символов');
-        hashTags.style.borderColor = BAD;
-        hashTags.style.outlineColor = BAD;
-        break;
-      } else {
-        hashTags.setCustomValidity('');
-        hashTags.style.outlineColor = GOOD;
-        hashTags.style.borderColor = GOOD;
-        // --- условие на пустой массив, если нет, выводим хеш-теги
-        if (arr[0] !== undefined) {
-          hashTags.value = '#' + arr.join(' #');
-          hashTags.setCustomValidity('');
-          hashTags.style.outlineColor = GOOD;
-          hashTags.style.borderColor = GOOD;
+    var arr = hashTags.value.toLowerCase().split('#', 6);
+    arr.shift();
+    var countHash = arr.length;
+    console.log(countHash);
+    var m = 1;
+    // --- проверка на ошибки
+    for (var k = 0; k < arr.length; k++) {
+      if (arr[k].indexOf(' ', 0) !== -1) {
+        console.log('позиция ' + arr[k].indexOf(' ', 0));
+        // --- проверка количества слов в тегах по пробелам
+        if ((arr[k].length - 1) !== (arr[k].indexOf(' ', 0))) {
+          console.log('хеш-тег должен состоять из одного слова');
+          break;
         }
+      } else {
+        // --- проверка на пробел перед следующим тегом
+        if (countHash !== m) {
+          alert('хеш-теги должны разделяться пробелами');
+          console.log(m);
+        }
+      }
+      // --- проверка количества символов в тегах
+      if (arr[k].length > 19) {
+        console.log('too Long ' + arr[k]);
+        console.log('хеш-тег не должен превышать 20 символов');
+        break;
+      }
+      m++;
+    }
+    // --- проверка на одинаковые теги
+    var arrNoSpace = spaceDel(hashTags.value).toLowerCase().split('#', 6);
+    arrNoSpace.shift();
+    arrNoSpace.sort();
+    var match = arrNoSpace.length;
+    while (match--) {
+      console.log(arrNoSpace);
+      if (arrNoSpace[match] === arrNoSpace[match - 1]) {
+        console.log('Хеш-теги не должны повторяться ' + arrNoSpace[match]);
+        break;
       }
     }
   }
