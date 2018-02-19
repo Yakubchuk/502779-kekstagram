@@ -314,8 +314,8 @@ hashTags.addEventListener('change', function () {
   var message = '';
   alert(message);
   console.log(message);
-  if ( valueTag.charAt(0) !== HASH_SYMBOL) {
-    message += 'Хеш-тег должен начинаться с # !';
+  if ( valueTag.charAt(0) !== HASH_SYMBOL && valueTag.length > 0 && valueTag.charAt(0) !== SPACE_SYMBOL) {
+    message += 'Хеш-тег должен начинаться с # ! ';
   } else {
     hashTags.setCustomValidity('');
     hashTags.style.borderColor = GOOD;
@@ -332,7 +332,7 @@ hashTags.addEventListener('change', function () {
         if (arr[k].indexOf(SPACE_SYMBOL, 0) !== -1) {
           // --- проверка количества слов в тегах по пробелам
           if ((arr[k].length - 1) !== (arr[k].indexOf(SPACE_SYMBOL, 0))) {
-            message += 'Хеш-тег должен состоять из одного слова!';
+            message += 'Хеш-тег должен состоять из одного слова! ';
             console.log('хеш-тег должен состоять из одного слова');
             break;
           }
@@ -340,13 +340,13 @@ hashTags.addEventListener('change', function () {
           // --- проверка на пробел перед следующим тегом
           if (countHash !== m) {
             console.log('хеш-теги должны разделяться пробелами');
-            message += 'Хеш-теги должны разделяться пробелами!';
+            message += 'Хеш-теги должны разделяться пробелами! ';
             break;
           }
         }
         // --- проверка количества символов в тегах
         if (arr[k].length > 19) {
-          message += 'Хеш-тег не должен превышать 20 символов!';
+          message += 'Хеш-тег не должен превышать 20 символов! ';
           console.log('хеш-тег не должен превышать 20 символов');
           break;
         }
@@ -360,12 +360,12 @@ hashTags.addEventListener('change', function () {
       while (match--) {
         if (arrNoSpace[match] === arrNoSpace[match - 1]) {
           console.log('Хеш-теги не должны повторяться ');
-          message += 'Хеш-теги не должны повторяться!';
+          message += 'Хеш-теги не должны повторяться! ';
           break;
         }
       }
     } else {
-      message += 'Максимальное количество хеш-тегов = 5';
+      message += 'Максимальное количество хеш-тегов = 5 ';
     }
   }
   console.log(message);
