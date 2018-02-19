@@ -308,67 +308,87 @@ var spaceDel = function (str) {
 };
 hashTags.addEventListener('change', function () {
 
-  var found = hashTags.value.indexOf('#');
   var valueTag = document.querySelector('.upload-form-hashtags').value;
-  var reg = /\s/g;
-  // var pos = 0;
-  var hash = '#';
-  var spaces = ' ';
-
-  var posSpace = 0;
-  var posHash = 0;
-
-  if ( valueTag.charAt(0) !== '#') {
-    alert('ошибка');
-    hashTags.setCustomValidity('Хеш-тег должен начинаться с #');
-    hashTags.style.borderColor = BAD;
-    hashTags.style.outlineColor = BAD;
+  var HASH_SYMBOL = '#';
+  var SPACE_SYMBOL = ' ';
+  var message = '';
+  alert(message);
+  console.log(message);
+  if ( valueTag.charAt(0) !== HASH_SYMBOL) {
+    message += 'Хеш-тег должен начинаться с # !';
   } else {
     hashTags.setCustomValidity('');
     hashTags.style.borderColor = GOOD;
     hashTags.style.outlineColor = GOOD;
 
-    var arr = hashTags.value.toLowerCase().split('#', 6);
+    var arr = hashTags.value.toLowerCase().split(HASH_SYMBOL);
     arr.shift();
     var countHash = arr.length;
     console.log(countHash);
     var m = 1;
     // --- проверка на ошибки
-    for (var k = 0; k < arr.length; k++) {
-      if (arr[k].indexOf(' ', 0) !== -1) {
-        console.log('позиция ' + arr[k].indexOf(' ', 0));
-        // --- проверка количества слов в тегах по пробелам
-        if ((arr[k].length - 1) !== (arr[k].indexOf(' ', 0))) {
-          console.log('хеш-тег должен состоять из одного слова');
+    if (arr.length <= 5) {
+      for (var k = 0; k < arr.length; k++) {
+        if (arr[k].indexOf(SPACE_SYMBOL, 0) !== -1) {
+          // --- проверка количества слов в тегах по пробелам
+          if ((arr[k].length - 1) !== (arr[k].indexOf(SPACE_SYMBOL, 0))) {
+            message += 'Хеш-тег должен состоять из одного слова!';
+            console.log('хеш-тег должен состоять из одного слова');
+            break;
+          }
+        } else {
+          // --- проверка на пробел перед следующим тегом
+          if (countHash !== m) {
+            console.log('хеш-теги должны разделяться пробелами');
+            message += 'Хеш-теги должны разделяться пробелами!';
+            break;
+          }
+        }
+        // --- проверка количества символов в тегах
+        if (arr[k].length > 19) {
+          message += 'Хеш-тег не должен превышать 20 символов!';
+          console.log('хеш-тег не должен превышать 20 символов');
           break;
         }
-      } else {
-        // --- проверка на пробел перед следующим тегом
-        if (countHash !== m) {
-          alert('хеш-теги должны разделяться пробелами');
-          console.log(m);
+        m++;
+      }
+      // --- проверка на одинаковые теги
+      var arrNoSpace = spaceDel(hashTags.value).toLowerCase().split(HASH_SYMBOL, 6);
+      arrNoSpace.shift();
+      arrNoSpace.sort();
+      var match = arrNoSpace.length;
+      while (match--) {
+        if (arrNoSpace[match] === arrNoSpace[match - 1]) {
+          console.log('Хеш-теги не должны повторяться ');
+          message += 'Хеш-теги не должны повторяться!';
+          break;
         }
       }
-      // --- проверка количества символов в тегах
-      if (arr[k].length > 19) {
-        console.log('too Long ' + arr[k]);
-        console.log('хеш-тег не должен превышать 20 символов');
-        break;
-      }
-      m++;
+    } else {
+      message += 'Максимальное количество хеш-тегов = 5';
     }
-    // --- проверка на одинаковые теги
-    var arrNoSpace = spaceDel(hashTags.value).toLowerCase().split('#', 6);
-    arrNoSpace.shift();
-    arrNoSpace.sort();
-    var match = arrNoSpace.length;
-    while (match--) {
-      console.log(arrNoSpace);
-      if (arrNoSpace[match] === arrNoSpace[match - 1]) {
-        console.log('Хеш-теги не должны повторяться ' + arrNoSpace[match]);
-        break;
+  }
+  console.log(message);
+  if (message !== '') {
+    alert(message);
+    var messages = message.split('!');
+    messages.shift();
+    messages.sort();
+    var once = messages.length;
+    while (once--) {
+      if (messages[once] === messages[once - 1]) {
+        messages.splice(once, 1);
       }
     }
+    console.log(messages);
+    hashTags.setCustomValidity(message);
+    hashTags.style.outlineColor = BAD;
+    hashTags.style.borderColor = BAD;
+    // break;
+  } else {
+    hashTags.setCustomValidity('');
+    hashTags.style.outlineColor = GOOD;
+    hashTags.style.borderColor = GOOD;
   }
 });
 // --- Отправка формы
