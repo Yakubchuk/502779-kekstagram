@@ -115,7 +115,6 @@ formClose.addEventListener('click', function () {
   cleaningInput();
 });
 
-
 // --- Редактирование изображения
 
 var buttonDec = document.querySelector('.upload-resize-controls-button-dec');
@@ -126,17 +125,18 @@ var imgPreview = document.querySelector('.effect-image-preview');
 // --- Маштаб Плюс
 
 var onSizeIncClick = function () {
-  var currentCount = parseInt(sizeValue.value);
+  var currentCount = parseInt(sizeValue.value, 0);
   var count = 25;
   if (currentCount - count >= 25) {
     sizeValue.value = currentCount - count + '%';
     imgPreview.style.transform = 'scale(' + (currentCount - count) / 100 + ')';
   }
 };
+
 // --- Маштаб Минус
 
 var onSizeDecClick = function () {
-  var currentCount = parseInt(sizeValue.value);
+  var currentCount = parseInt(sizeValue.value, 0);
   var count = 25;
   if (currentCount + count <= 100) {
     sizeValue.value = currentCount + count + '%';
@@ -147,6 +147,7 @@ var onSizeDecClick = function () {
 buttonDec.addEventListener('click', function () {
   onSizeIncClick();
 });
+
 buttonInc.addEventListener('click', function () {
   onSizeDecClick();
 });
@@ -154,21 +155,24 @@ buttonInc.addEventListener('click', function () {
 // --- Слайдер
 var runner = document.querySelector('.upload-effect-level-pin');
 var percentBar = document.querySelector('.upload-effect-level-line');
+var groundColor = document.querySelector('.upload-effect-level-val');
 
 // --- приминение эффектов
 
 // imgPreview
 var effects = document.querySelectorAll('input[name=effect]');
 var slider = document.querySelector('.upload-effect-level');
+// var effValue = document.querySelector('.upload-effect-level-value');
 var saveValue = document.querySelector('.upload-effect-level-value');
 
 // --- отмеченный эффект (скрытие слайдера по-умолчанию)
 var getChecked = function () {
   var inp = effects;
-  for (var i = 0; i < inp.length; i++) {
-    if (inp[i].type === 'radio' && inp[i].checked) {
-      if (inp[i].value === 'none') {
+  for (var o = 0; o < inp.length; o++) {
+    if (inp[o].type === 'radio' && inp[o].checked) {
+      if (inp[o].value === 'none') {
         slider.classList.add('hidden');
+        saveValue.value = 0;
       }
     }
   }
@@ -176,83 +180,92 @@ var getChecked = function () {
 getChecked();
 
 // //////////////////////////// ---------------------------- Обработчик событий смены Эффектов -------------------- ///////////////////////////
-for (var e = 0; e < effects.length; e++) {
-  effects[e].addEventListener('change', function () {
-    var defaultEff = 'effect-image-preview';
-    var newEff = this.id.slice(7);
-    if (newEff === 'effect-none') {
-      imgPreview.setAttribute('class', '');
-      imgPreview.setAttribute('class', '' + defaultEff + '');
-      slider.classList.add('hidden');
-      saveValue.value = 0;
-    } else {
-      imgPreview.setAttribute('class', '');
-      imgPreview.setAttribute('class', '' + newEff + ' ' + defaultEff + '');
-      slider.classList.remove('hidden');
-      saveValue.value = 0;
-      imgPreview.style = '';
-    }
-  });
-}
+var getEffects = function () {
+  for (var e = 0; e < effects.length; e++) {
+    effects[e].addEventListener('change', function () {
+      var defaultEff = 'effect-image-preview';
+      var newEff = this.id.slice(7);
+      if (newEff === 'effect-none') {
+        imgPreview.className = '';
+        imgPreview.classList.add(defaultEff);
+        slider.classList.add('hidden');
+        imgPreview.style.filter = '';
+        saveValue.value = 0;
+      } else {
+        imgPreview.className = defaultEff;
+        imgPreview.classList.add(newEff);
+        slider.classList.remove('hidden');
+        saveValue.value = 100;
+        imgPreview.style = '';
+        groundColor.style.width = '100%';
+        runner.style.left = '460px';
+      }
+    });
+  }
+};
+
+getEffects(effects);
+
 
 // //////////////////////////// ---------------------------- обработчик бегунка -------------------- ///////////////////////////
-runner.addEventListener('mouseup', function (evt) {
-  evt.preventDefault();
+var onRunnerShift = function () {
+  // evt.preventDefault();
   var valueBar = percentBar.offsetWidth;
-  var startCoord = runner.offsetLeft;
-  var currentValue = startCoord / valueBar;
-  var currentEffect = getComputedStyle(document.querySelector('.effect-image-preview'));
+  var startCord = runner.offsetLeft;
+  var currentValue = startCord / valueBar;
+  var currentEffect = getComputedStyle(imgPreview);
   var effectDone = String(currentEffect.filter);
   effectDone = effectDone.substring(0, effectDone.lastIndexOf('('));
+  groundColor.style.width = (startCord / valueBar) * 100 + '%';
+  // --- условия определения эффектов вычисление применяемых значений
+  switch (effectDone) {
+    case 'invert':
+      imgPreview.style.filter = effectDone + '(' + currentValue * 100 + '%' + ')';
+      saveValue.value = Math.round(currentValue * 100);
+      break;
+    case 'blur':
+      imgPreview.style.filter = effectDone + '(' + currentValue * 3 + 'px' + ')';
+      saveValue.value = Math.round(currentValue * 100);
+      break;
+    case 'brightness':
+      imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')';
+      saveValue.value = Math.round(currentValue * 100);
+      break;
+    default:
+      imgPreview.style.filter = effectDone + '(' + currentValue + ')';
+      saveValue.value = Math.round(currentValue * 100);
+  }
+};
 
-// --- условия определения эффектов вычисление применяемых значений
-
-  if (effectDone !== 'invert' || 'blur' || 'brigthness') {
-    imgPreview.style.filter = effectDone + '(' + currentValue + ')';
-  }
-  if (effectDone === 'invert') {
-    imgPreview.style.filter = effectDone + '(' + currentValue * 100 + '%' + ')';
-  }
-  if (effectDone === 'blur') {
-    imgPreview.style.filter = effectDone + '(' + currentValue * 3 + 'px' + ')';
-  }
-  if (effectDone === 'brightness') {
-    imgPreview.style.filter = effectDone + '(' + currentValue * 3 + ')';
-  }
-
-  // runner.addEventListener('mouseup', function (evt) {
-  //   evt.preventDefault();
-  // var onMouseMove = function (moveEvt) {
-  //   moveEvt.preventDefault();
-  //
-  //   var shift = {
-  //     x: startCoord.x - runner.offsetLeft
-  //   };
-  //   startCoord = {
-  //     x: moveEvt.offsetLeft
-  //   };
-  //   runner.style.left = (runner.offsetLeft - shift.x) + 'px';
-  //
-  // };
-  //
-  // var onMouseUp = function (upEvt) {
-  //   upEvt.preventDefault();
-  //
-  //   runner.removeEventListener('mousemove', onMouseMove);
-  //   runner.removeEventListener('mouseup', onMouseUp);
-  // };
-  //
-  // runner.addEventListener('mousemove', onMouseMove);
-  // runner.addEventListener('mouseup', onMouseUp);
-  // });
+runner.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+  var startCoords = {x: evt.clientX};
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    var shift = {x: startCoords.x - moveEvt.clientX};
+    startCoords = {
+      x: moveEvt.clientX
+    };
+    runner.style.left = (runner.offsetLeft - shift.x) + 'px';
+    if (runner.offsetLeft - shift.x < 0 || runner.offsetLeft - shift.x > 460) {
+      document.removeEventListener('mousedown', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+    }
+    onRunnerShift();
+  };
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mousedown', onMouseUp);
+  };
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
-
 
 // //////////////////////////// ------------------------- Открытие Миниатюр -------------------- ///////////////////////////
 
 var pictures = document.querySelectorAll('.picture');
 var closeButton = document.querySelector('.gallery-overlay-close');
-
 var onCloseButtonClick = function () {
   mainPicture.classList.add('hidden');
 };
@@ -285,49 +298,108 @@ for (var x = 0; x < pictures.length; x++) {
 // //////////////////////////// -------------------------  Проверка Формы ------------------------ ///////////////////////////
 
 var hashTags = document.querySelector('.upload-form-hashtags');
-// var description = document.querySelector('.upload-form-description');
+var description = document.querySelector('.upload-form-description');
+var BAD = '#E82C31';
+var GOOD = 'inherit';
 
 var spaceDel = function (str) {
   str = str.replace(/\s/g, '');
   return str;
 };
-
 hashTags.addEventListener('change', function () {
-  // --- удаляем пробелы  +  приводим к нижнему регистру  +  строка в массив по знаку#
-  var arr = spaceDel(hashTags.value).toLowerCase().split('#', 6);
-  arr.shift();
-  // --- Проверяем длинну хэш-тега
-  for (i = 0; i < arr.length; i++) {
-    if (arr[i].length >= 20) {
-      arr.splice(i, 1);
+
+  var valueTag = document.querySelector('.upload-form-hashtags').value;
+  var HASH_SYMBOL = '#';
+  var SPACE_SYMBOL = ' ';
+  var message = '';
+
+  if (valueTag.charAt(0) !== HASH_SYMBOL && valueTag.length > 0 && valueTag.charAt(0) !== SPACE_SYMBOL) {
+    message += 'Хеш-тег должен начинаться с # ! ';
+  } else {
+    hashTags.setCustomValidity('');
+    hashTags.style.borderColor = GOOD;
+    hashTags.style.outlineColor = GOOD;
+
+    var arr = hashTags.value.toLowerCase().split(HASH_SYMBOL);
+    arr.shift();
+    var countHash = arr.length;
+    var m = 1;
+    // --- проверка на ошибки
+    if (arr.length <= 5) {
+      for (var k = 0; k < arr.length; k++) {
+        if (arr[k].indexOf(SPACE_SYMBOL, 0) !== -1) {
+          // --- проверка количества слов в тегах по пробелам
+          if ((arr[k].length - 1) !== (arr[k].indexOf(SPACE_SYMBOL, 0))) {
+            message += 'Хеш-тег должен состоять из одного слова! ';
+            // break;
+          }
+        } else {
+          // --- проверка на пробел перед следующим тегом
+          if (countHash !== m) {
+            message += 'Хеш-теги должны разделяться пробелами! ';
+          }
+        }
+        // --- проверка количества символов в тегах
+        if (arr[k].length > 19) {
+          message += 'Хеш-тег не должен превышать 20 символов! ';
+        }
+        m++;
+      }
+      // --- проверка на одинаковые теги
+      var arrNoSpace = spaceDel(hashTags.value).toLowerCase().split(HASH_SYMBOL, 6);
+      arrNoSpace.shift();
+      arrNoSpace.sort();
+      var match = arrNoSpace.length;
+      while (match--) {
+        if (arrNoSpace[match] === arrNoSpace[match - 1]) {
+          message += 'Хеш-теги не должны повторяться! ';
+        }
+      }
+    } else {
+      message += 'Максимальное количество хеш-тегов = 5 ';
     }
   }
-  console.log(arr);
-  // --- проверка на совпадения
-  var match = arr.length;
-  arr.sort();
-  while (match--) {
-    if (arr[match] === arr[match - 1]) {
-      arr.splice(match, 1);
+  console.log(message);
+  if (message !== '') {
+    var messages = message.split('!');
+    messages.shift();
+    messages.sort();
+    var once = messages.length;
+    while (once--) {
+      if (messages[once] === messages[once - 1]) {
+        messages.splice(once, 1);
+      }
     }
-    // console.log(arr);
+    console.log(messages);
+    hashTags.setCustomValidity(message);
+    hashTags.style.outlineColor = BAD;
+    hashTags.style.borderColor = BAD;
+  } else {
+    hashTags.setCustomValidity('');
+    hashTags.style.outlineColor = GOOD;
+    hashTags.style.borderColor = GOOD;
   }
 });
-
 // --- Отправка формы
 
 // --- проверка поля File
-var fileName = document.querySelector('.upload-file');
-fileName.addEventListener('invalid', function (evt) {
-  if (fileName.validity.valueMissing) {
-    fileName.setCustomValidity('обязательное поле');
-  }
-});
 
 // --- длинна комментария
-// description.addEventListener('change', function () {
-
-//
+description.addEventListener('keydown', function (evt) {
+  evt.stopPropagation();
+});
+description.checkValidity();
+description.addEventListener('change', function () {
+  if (description.value.length > 140) {
+    description.setCustomValidity('Максимальная длинна комментария 140символов!');
+    description.style.borderColor = BAD;
+    description.style.outlineColor = BAD;
+  } else {
+    description.setCustomValidity('');
+    description.style.outlineColor = GOOD;
+    description.style.borderColor = GOOD;
+  }
+});
 // var SUBMITT = document.querySelector('.upload-form-submit')
 
 // SUBMITT.addEventListener('click', function () {
