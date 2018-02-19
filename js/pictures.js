@@ -312,7 +312,7 @@ hashTags.addEventListener('change', function () {
   var HASH_SYMBOL = '#';
   var SPACE_SYMBOL = ' ';
   var message = '';
-  
+
   if (valueTag.charAt(0) !== HASH_SYMBOL && valueTag.length > 0 && valueTag.charAt(0) !== SPACE_SYMBOL) {
     message += 'Хеш-тег должен начинаться с # ! ';
   } else {
@@ -361,7 +361,6 @@ hashTags.addEventListener('change', function () {
   }
   console.log(message);
   if (message !== '') {
-    alert(message);
     var messages = message.split('!');
     messages.shift();
     messages.sort();
