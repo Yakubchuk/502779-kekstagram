@@ -312,9 +312,8 @@ hashTags.addEventListener('change', function () {
   var HASH_SYMBOL = '#';
   var SPACE_SYMBOL = ' ';
   var message = '';
-  alert(message);
-  console.log(message);
-  if ( valueTag.charAt(0) !== HASH_SYMBOL && valueTag.length > 0 && valueTag.charAt(0) !== SPACE_SYMBOL) {
+  
+  if (valueTag.charAt(0) !== HASH_SYMBOL && valueTag.length > 0 && valueTag.charAt(0) !== SPACE_SYMBOL) {
     message += 'Хеш-тег должен начинаться с # ! ';
   } else {
     hashTags.setCustomValidity('');
@@ -324,7 +323,6 @@ hashTags.addEventListener('change', function () {
     var arr = hashTags.value.toLowerCase().split(HASH_SYMBOL);
     arr.shift();
     var countHash = arr.length;
-    console.log(countHash);
     var m = 1;
     // --- проверка на ошибки
     if (arr.length <= 5) {
@@ -333,22 +331,17 @@ hashTags.addEventListener('change', function () {
           // --- проверка количества слов в тегах по пробелам
           if ((arr[k].length - 1) !== (arr[k].indexOf(SPACE_SYMBOL, 0))) {
             message += 'Хеш-тег должен состоять из одного слова! ';
-            console.log('хеш-тег должен состоять из одного слова');
-            break;
+            // break;
           }
         } else {
           // --- проверка на пробел перед следующим тегом
           if (countHash !== m) {
-            console.log('хеш-теги должны разделяться пробелами');
             message += 'Хеш-теги должны разделяться пробелами! ';
-            break;
           }
         }
         // --- проверка количества символов в тегах
         if (arr[k].length > 19) {
           message += 'Хеш-тег не должен превышать 20 символов! ';
-          console.log('хеш-тег не должен превышать 20 символов');
-          break;
         }
         m++;
       }
@@ -359,9 +352,7 @@ hashTags.addEventListener('change', function () {
       var match = arrNoSpace.length;
       while (match--) {
         if (arrNoSpace[match] === arrNoSpace[match - 1]) {
-          console.log('Хеш-теги не должны повторяться ');
           message += 'Хеш-теги не должны повторяться! ';
-          break;
         }
       }
     } else {
@@ -384,7 +375,6 @@ hashTags.addEventListener('change', function () {
     hashTags.setCustomValidity(message);
     hashTags.style.outlineColor = BAD;
     hashTags.style.borderColor = BAD;
-    // break;
   } else {
     hashTags.setCustomValidity('');
     hashTags.style.outlineColor = GOOD;
