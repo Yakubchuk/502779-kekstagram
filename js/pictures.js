@@ -77,12 +77,16 @@ var formClose = document.querySelector('.upload-form-cancel');
 var selectFile = document.querySelector('#upload-file');
 var settings = document.querySelector('.upload-overlay');
 var previewImg = document.querySelector('.effect-image-preview');
-
+var message = '';
 
 // --- Очистка поля Инпут
 
 var cleaningInput = function () {
-  selectFile.value = ('');
+  selectFile.value = '';
+  hashTags.value = '';
+  message = '';
+  hashTags.style.outlineColor = GOOD;
+  hashTags.style.borderColor = GOOD;
 };
 // --- Открытие закрытие окна --------- Подтягиваем изображение
 var openSettings = function () {
@@ -306,12 +310,13 @@ var spaceDel = function (str) {
   str = str.replace(/\s/g, '');
   return str;
 };
+
 hashTags.addEventListener('change', function () {
 
   var valueTag = document.querySelector('.upload-form-hashtags').value;
   var HASH_SYMBOL = '#';
   var SPACE_SYMBOL = ' ';
-  var message = '';
+
 
   if (valueTag.charAt(0) !== HASH_SYMBOL && valueTag.length > 0 && valueTag.charAt(0) !== SPACE_SYMBOL) {
     message += 'Хеш-тег должен начинаться с # ! ';
@@ -359,7 +364,6 @@ hashTags.addEventListener('change', function () {
       message += 'Максимальное количество хеш-тегов = 5 ';
     }
   }
-  console.log(message);
   if (message !== '') {
     var messages = message.split('!');
     messages.shift();
@@ -370,11 +374,11 @@ hashTags.addEventListener('change', function () {
         messages.splice(once, 1);
       }
     }
-    console.log(messages);
     hashTags.setCustomValidity(message);
     hashTags.style.outlineColor = BAD;
     hashTags.style.borderColor = BAD;
-  } else {
+  }
+  if (message === '') {
     hashTags.setCustomValidity('');
     hashTags.style.outlineColor = GOOD;
     hashTags.style.borderColor = GOOD;
