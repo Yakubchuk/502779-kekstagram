@@ -1,26 +1,23 @@
 'use strict';
 // //////////////////////////// -------------------------  Проверка Формы ------------------------ ///////////////////////////
 (function () {
-  var hashTags = window.getVar.getHashTag;
   var description = document.querySelector('.upload-form-description');
-  var BAD = '#E82C31';
-  var GOOD = 'inherit';
   var spaceDel = function (str) {
     str = str.replace(/\s/g, '');
     return str;
   };
-  hashTags.addEventListener('change', function () {
-    var valueTag = document.querySelector('.upload-form-hashtags').value;
+  window.HASH_TAG.addEventListener('change', function () {
+    // var valueTag = document.querySelector('.upload-form-hashtags').value;
     var HASH_SYMBOL = '#';
     var SPACE_SYMBOL = ' ';
     var message = '';
-    if (valueTag.charAt(0) !== HASH_SYMBOL && valueTag.length > 0 && valueTag.charAt(0) !== SPACE_SYMBOL) {
+    if (window.HASH_TAG.value.charAt(0) !== HASH_SYMBOL && window.HASH_TAG.value.length > 0 && window.HASH_TAG.value.charAt(0) !== SPACE_SYMBOL) {
       message += 'Хеш-тег должен начинаться с # ! ';
     } else {
-      hashTags.setCustomValidity('');
-      hashTags.style.borderColor = GOOD;
-      hashTags.style.outlineColor = GOOD;
-      var arr = hashTags.value.toLowerCase().split(HASH_SYMBOL);
+      window.HASH_TAG.setCustomValidity('');
+      window.HASH_TAG.style.borderColor = window.GOOD;
+      window.HASH_TAG.style.outlineColor = window.GOOD;
+      var arr = window.HASH_TAG.value.toLowerCase().split(HASH_SYMBOL);
       arr.shift();
       var countHash = arr.length;
       var m = 1;
@@ -46,7 +43,7 @@
           m++;
         }
         // --- проверка на одинаковые теги
-        var arrNoSpace = spaceDel(hashTags.value).toLowerCase().split(HASH_SYMBOL, 6);
+        var arrNoSpace = spaceDel(window.HASH_TAG.value).toLowerCase().split(HASH_SYMBOL, 6);
         arrNoSpace.shift();
         arrNoSpace.sort();
         var match = arrNoSpace.length;
@@ -69,13 +66,9 @@
           messages.splice(once, 1);
         }
       }
-      hashTags.setCustomValidity(message);
-      hashTags.style.outlineColor = BAD;
-      hashTags.style.borderColor = BAD;
+      giveErrorMessaage(window.HASH_TAG, message);
     } else {
-      hashTags.setCustomValidity('');
-      hashTags.style.outlineColor = GOOD;
-      hashTags.style.borderColor = GOOD;
+      takeErrorMessage(window.HASH_TAG);
     }
   });
   description.addEventListener('keydown', function (evt) {
@@ -83,13 +76,26 @@
   });
   description.addEventListener('change', function () {
     if (description.value.length > 140) {
-      description.setCustomValidity('Максимальная длинна комментария 140символов!');
-      description.style.borderColor = BAD;
-      description.style.outlineColor = BAD;
+      giveErrorMessaage(description);
     } else {
-      description.setCustomValidity('');
-      description.style.outlineColor = GOOD;
-      description.style.borderColor = GOOD;
+      takeErrorMessage(description);
     }
   });
+
+  var giveErrorMessaage = function (fill, text) {
+    if (text === undefined) {
+      fill.setCustomValidity('Максимальная длинна комментария 140символов!');
+      fill.style.borderColor = window.BAD;
+      fill.style.outlineColor = window.BAD;
+    } else {
+      fill.setCustomValidity(text);
+      fill.style.borderColor = window.BAD;
+      fill.style.outlineColor = window.BAD;
+    }
+  };
+  var takeErrorMessage = function (fill) {
+    fill.setCustomValidity('');
+    fill.style.outlineColor = window.GOOD;
+    fill.style.borderColor = window.GOOD;
+  };
 })();

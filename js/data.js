@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var pictureTemplate = document.querySelector('#picture-template').content;
-  var picturesList = document.querySelector('.pictures');
   var COMMENTS =
     ['Всё отлично!',
       'В целом всё неплохо. Но не всё.',
@@ -30,9 +28,8 @@
     return currentComments;
   }
   // ---Запонлнение Массива Объектов Данными
-  var photos = [];
   for (var i = 0; i < 25; i++) {
-    photos [i] =
+    window.PHOTO_DATA [i] =
       {
         urls: 'photos/' + (i + 1) + '.jpg',
         likes: getRandomNum(200, 15),
@@ -40,15 +37,15 @@
       };
   }
   var renderPhotos = function (item) {
-    var currentPictures = pictureTemplate.cloneNode(true);
+    var currentPictures = window.PIC_TEMPLATE.cloneNode(true);
     currentPictures.querySelector('img').src = item.urls;
     currentPictures.querySelector('.picture-likes').textContent = item.likes;
     currentPictures.querySelector('.picture-comments').textContent = item.comments.length;
     return currentPictures;
   };
   var fragment = document.createDocumentFragment();
-  for (var j = 0; j < photos.length; j++) {
-    fragment.appendChild(renderPhotos(photos[j]));
+  for (var j = 0; j < window.PHOTO_DATA.length; j++) {
+    fragment.appendChild(renderPhotos(window.PHOTO_DATA[j]));
   }
-  picturesList.appendChild(fragment);
+  window.PIC_LIST.appendChild(fragment);
 })();

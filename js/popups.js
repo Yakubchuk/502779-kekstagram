@@ -1,14 +1,12 @@
 'use strict';
-// //////////////////////////// ------------------------- Открытие Миниатюр -------------------- ///////////////////////////
 (function () {
-  var hashTags = window.getVar.getHashTag;
+  var settings = document.querySelector('.upload-overlay');
+  var formClose = document.querySelector('.upload-form-cancel');
   var pictures = document.querySelectorAll('.picture');
   var closeButton = document.querySelector('.gallery-overlay-close');
   var mainPicture = document.querySelector('.gallery-overlay');
   var selectFile = document.querySelector('#upload-file');
-  var settings = document.querySelector('.upload-overlay');
-  var formClose = document.querySelector('.upload-form-cancel');
-  var GOOD = 'inherit';
+
   var openPrewiew = function () {
     mainPicture.classList.remove('hidden');
     document.addEventListener('keydown', onPrewiewEscPress);
@@ -20,10 +18,10 @@
   var onPrewiewEscPress = function (evt) {
     window.util.isEscEvent(evt, closePrewiew);
   };
+  closeButton.addEventListener('click', closePrewiew);
   closeButton.addEventListener('keydown', function (evt) {
     window.util.isEnterEvent(evt, closePrewiew);
   });
-
   var onSettingsEscPress = function (evt) {
     window.util.isEscEvent(evt, onCloseSettings);
   };
@@ -36,14 +34,6 @@
       mainPicture.querySelector('.comments-count').textContent = this.querySelector('.picture-comments').textContent;
     });
   }
-  // --- Очистка поля Инпут
-  var cleaningForm = function () {
-    selectFile.value = ('');
-    window.getVar.getImgPreview.setAttribute('class', 'effect-image-preview');
-    hashTags.value = '';
-    hashTags.style.outlineColor = GOOD;
-    hashTags.style.borderColor = GOOD;
-  };
   // --- Открытие закрытие окна --------- Подтягиваем изображение
   var openSettings = function () {
     settings.classList.remove('hidden');
@@ -56,7 +46,7 @@
   };
   var loadPicture = function () {
     var fileName = selectFile.files[0].name;
-    window.getVar.getImgPreview.src = 'photos/' + fileName;
+    window.IMG_PREV.src = 'photos/' + fileName;
   };
   selectFile.addEventListener('change', function () {
     openSettings();
@@ -65,4 +55,12 @@
   formClose.addEventListener('click', function () {
     onCloseSettings();
   });
+  // --- Очистка поля Инпут
+  var cleaningForm = function () {
+    selectFile.value = ('');
+    window.IMG_PREV.setAttribute('class', 'effect-image-preview');
+    window.HASH_TAG.value = '';
+    window.HASH_TAG.style.outlineColor = window.GOOD;
+    window.HASH_TAG.style.borderColor = window.GOOD;
+  };
 })();
