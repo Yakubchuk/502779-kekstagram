@@ -73,11 +73,9 @@
     }
   })();
 })();
-
 (function () {
-  // //////////////////////////// ---------------------------- бегунок -------------------- ///////////////////////////
   var percentBar = document.querySelector('.upload-effect-level-line');
-  // --- насыщенность эффектов по положению ползунка
+// --- насыщенность эффектов по положению ползунка
   var onRunnerShift = function () {
     var valueBar = percentBar.offsetWidth;
     var startCord = window.getVar.getRunner.offsetLeft;
@@ -105,4 +103,29 @@
         window.getVar.getSaveVal.value = Math.round(currentValue * 100);
     }
   };
+  window.getVar.getRunner.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    var startCoords = {x: evt.clientX};
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      var shift = {x: startCoords.x - moveEvt.clientX};
+      startCoords = {
+        x: moveEvt.clientX
+      };
+      window.getVar.getRunner.style.left = (window.getVar.getRunner.offsetLeft - shift.x) + 'px';
+      if (window.getVar.getRunner.offsetLeft - shift.x < 0 || window.getVar.getRunner.offsetLeft - shift.x > 460) {
+        document.removeEventListener('mousedown', onMouseUp);
+        document.removeEventListener('mousemove', onMouseMove);
+      }
+      onRunnerShift();
+    };
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mousedown', onMouseUp);
+    };
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
 })();
+
