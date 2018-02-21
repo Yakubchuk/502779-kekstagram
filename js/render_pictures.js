@@ -1,4 +1,5 @@
 'use strict';
+
 (function () {
   var renderPhotos = function (item) {
     var currentPictures = window.PIC_TEMPLATE.cloneNode(true);

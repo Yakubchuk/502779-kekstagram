@@ -2,7 +2,6 @@
 (function () {
   var settings = document.querySelector('.upload-overlay');
   var formClose = document.querySelector('.upload-form-cancel');
-  var pictures = document.querySelectorAll('.picture');
   var closeButton = document.querySelector('.gallery-overlay-close');
   var mainPicture = document.querySelector('.gallery-overlay');
   var selectFile = document.querySelector('#upload-file');
@@ -25,8 +24,9 @@
   var onSettingsEscPress = function (evt) {
     window.util.isEscEvent(evt, onCloseSettings);
   };
-  for (var x = 0; x < pictures.length; x++) {
-    pictures[x].addEventListener('click', function (evt) {
+  window.PICTURES = document.querySelectorAll('.picture');
+  for (var x = 0; x < window.PICTURES.length; x++) {
+    window.PICTURES[x].addEventListener('click', function (evt) {
       evt.preventDefault();
       openPrewiew();
       mainPicture.querySelector('.gallery-overlay-image').src = this.querySelector('img').src;
