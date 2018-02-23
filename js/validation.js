@@ -7,7 +7,6 @@
     return str;
   };
   window.HASH_TAG.addEventListener('change', function () {
-    // var valueTag = document.querySelector('.upload-form-hashtags').value;
     var HASH_SYMBOL = '#';
     var SPACE_SYMBOL = ' ';
     var message = '';

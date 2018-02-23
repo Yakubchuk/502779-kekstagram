@@ -1,15 +1,7 @@
 'use strict';
-window.getVar = (function () {
-  return {
-    // getRunner: document.querySelector('.upload-effect-level-pin'),
-    // getImgPreview: document.querySelector('.effect-image-preview'),
-    // getHashTag: document.querySelector('.upload-form-hashtags'),
-    // getGroundCol: document.querySelector('.upload-effect-level-val'),
-    // getSaveVal: document.querySelector('.upload-effect-level-value')
-  };
-})();
-
 (function () {
+  window.SETTINGS = document.querySelector('.upload-overlay');
+  window.SELECTED_FILE = document.querySelector('#upload-file');
   window.IMG_PREV = document.querySelector('.effect-image-preview');
   window.RUNNER = document.querySelector('.upload-effect-level-pin');
   window.SHADOW_SLI = document.querySelector('.upload-effect-level-val');
@@ -28,5 +20,4 @@ window.getVar = (function () {
     ];
   window.GOOD = 'inherit';
   window.BAD = '#E82C31';
-
 })();
