@@ -45,7 +45,7 @@
   window.onCloseSettings = function () {
     window.SETTINGS.classList.add('hidden');
     document.removeEventListener('keydown', onSettingsEscPress);
-    cleaningForm();
+    window.cleaningForm();
   };
   var loadPicture = function () {
     var fileName = selectFile.files[0].name;
@@ -59,11 +59,12 @@
     window.onCloseSettings();
   });
   // --- Очистка поля Инпут
-  var cleaningForm = function () {
+  window.cleaningForm = function () {
     selectFile.value = ('');
     window.IMG_PREV.setAttribute('class', 'effect-image-preview');
     window.HASH_TAG.value = '';
     window.HASH_TAG.style.outlineColor = window.GOOD;
     window.HASH_TAG.style.borderColor = window.GOOD;
+    window.DESCRIPTION.value = '';
   };
 })();
