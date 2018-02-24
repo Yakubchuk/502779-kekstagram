@@ -8,12 +8,15 @@
     currentPictures.querySelector('.picture-comments').textContent = item.comments.length;
     return currentPictures;
   };
-  window.load(function (pictures) {
+  var onLoad = function (data) {
     var fragment = document.createDocumentFragment();
-    for (var j = 0; j < pictures.length; j++) {
-      fragment.appendChild(renderPhotos(pictures[j]));
+    for (var j = 0; j < data.length; j++) {
+      fragment.appendChild(renderPhotos(data[j]));
     }
     window.PIC_LIST.appendChild(fragment);
-
-  });
+  };
+  var onError = function (errorMessage) {
+    console.log(errorMessage);
+  };
+  window.load(onLoad, onError);
 })();
