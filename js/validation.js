@@ -1,13 +1,12 @@
 'use strict';
 // //////////////////////////// -------------------------  Проверка Формы ------------------------ ///////////////////////////
 (function () {
-  var description = document.querySelector('.upload-form-description');
+  window.description = document.querySelector('.upload-form-description');
   var spaceDel = function (str) {
     str = str.replace(/\s/g, '');
     return str;
   };
   window.HASH_TAG.addEventListener('change', function () {
-    // var valueTag = document.querySelector('.upload-form-hashtags').value;
     var HASH_SYMBOL = '#';
     var SPACE_SYMBOL = ' ';
     var message = '';
@@ -71,14 +70,14 @@
       takeErrorMessage(window.HASH_TAG);
     }
   });
-  description.addEventListener('keydown', function (evt) {
+  window.DESCRIPTION.addEventListener('keydown', function (evt) {
     evt.stopPropagation();
   });
-  description.addEventListener('change', function () {
-    if (description.value.length > 140) {
-      giveErrorMessaage(description);
+  window.DESCRIPTION.addEventListener('change', function () {
+    if (window.DESCRIPTION.value.length > 140) {
+      giveErrorMessaage(window.DESCRIPTION);
     } else {
-      takeErrorMessage(description);
+      takeErrorMessage(window.DESCRIPTION);
     }
   });
 

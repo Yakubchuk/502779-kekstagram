@@ -1,11 +1,24 @@
 'use strict';
 (function () {
-  var settings = document.querySelector('.upload-overlay');
-  var formClose = document.querySelector('.upload-form-cancel');
-  var closeButton = document.querySelector('.gallery-overlay-close');
+  var gallery = document.querySelector('.pictures');
+  var formCloseButton = document.querySelector('.upload-form-cancel');
+  var prewiewCloseButton = document.querySelector('.gallery-overlay-close');
   var mainPicture = document.querySelector('.gallery-overlay');
   var selectFile = document.querySelector('#upload-file');
 
+  gallery.addEventListener('mousedown', function (evt) {
+    var target = evt.target;
+    if (target.tagName.toLowerCase() === 'img') {
+      evt.preventDefault();
+      openPrewiew();
+      getData(target);
+    }
+  });
+  var getData = function (target) {
+    mainPicture.querySelector('.gallery-overlay-image').src = target.src;
+    mainPicture.querySelector('.likes-count').textContent = target.parentNode.querySelector('.picture-likes').textContent;
+    mainPicture.querySelector('.comments-count').textContent = target.parentNode.querySelector('.picture-comments').textContent;
+  };
   var openPrewiew = function () {
     mainPicture.classList.remove('hidden');
     document.addEventListener('keydown', onPrewiewEscPress);
@@ -17,32 +30,22 @@
   var onPrewiewEscPress = function (evt) {
     window.util.isEscEvent(evt, closePrewiew);
   };
-  closeButton.addEventListener('click', closePrewiew);
-  closeButton.addEventListener('keydown', function (evt) {
+  prewiewCloseButton.addEventListener('click', closePrewiew);
+  prewiewCloseButton.addEventListener('keydown', function (evt) {
     window.util.isEnterEvent(evt, closePrewiew);
   });
   var onSettingsEscPress = function (evt) {
-    window.util.isEscEvent(evt, onCloseSettings);
+    window.util.isEscEvent(evt, window.onCloseSettings);
   };
-  window.PICTURES = document.querySelectorAll('.picture');
-  for (var x = 0; x < window.PICTURES.length; x++) {
-    window.PICTURES[x].addEventListener('click', function (evt) {
-      evt.preventDefault();
-      openPrewiew();
-      mainPicture.querySelector('.gallery-overlay-image').src = this.querySelector('img').src;
-      mainPicture.querySelector('.likes-count').textContent = this.querySelector('.picture-likes').textContent;
-      mainPicture.querySelector('.comments-count').textContent = this.querySelector('.picture-comments').textContent;
-    });
-  }
   // --- Открытие закрытие окна --------- Подтягиваем изображение
   var openSettings = function () {
-    settings.classList.remove('hidden');
+    window.SETTINGS.classList.remove('hidden');
     document.addEventListener('keydown', onSettingsEscPress);
   };
-  var onCloseSettings = function () {
-    settings.classList.add('hidden');
+  window.onCloseSettings = function () {
+    window.SETTINGS.classList.add('hidden');
     document.removeEventListener('keydown', onSettingsEscPress);
-    cleaningForm();
+    window.cleaningForm();
   };
   var loadPicture = function () {
     var fileName = selectFile.files[0].name;
@@ -52,15 +55,16 @@
     openSettings();
     loadPicture();
   });
-  formClose.addEventListener('click', function () {
-    onCloseSettings();
+  formCloseButton.addEventListener('click', function () {
+    window.onCloseSettings();
   });
   // --- Очистка поля Инпут
-  var cleaningForm = function () {
+  window.cleaningForm = function () {
     selectFile.value = ('');
     window.IMG_PREV.setAttribute('class', 'effect-image-preview');
     window.HASH_TAG.value = '';
     window.HASH_TAG.style.outlineColor = window.GOOD;
     window.HASH_TAG.style.borderColor = window.GOOD;
+    window.DESCRIPTION.value = '';
   };
 })();
