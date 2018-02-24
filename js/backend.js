@@ -2,7 +2,7 @@
 (function () {
 
 
-  window.upload = function (data, onSuccess, onError) {
+  window.upload = function (data, onLoad, onError) {
     var URL = 'https://js.dump.academy/kekstagram';
 
     var xhr = new XMLHttpRequest();
@@ -10,7 +10,7 @@
     console.log(xhr);
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
-        onSuccess(xhr.response);
+        onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -20,7 +20,7 @@
   };
 
   window.load = function (onLoad, onError) {
-    var URL = 'https://js.dump.acaemy/kekstagam/data';
+    var URL = 'https://js.dump.academy/kekstagram/data';
 
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
