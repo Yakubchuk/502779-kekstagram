@@ -17,7 +17,7 @@
   };
   var onError = function (errorMessage) {
     var node = document.createElement('div');
-    node.style = 'z-index: 10; text-align: center; background-color: #232321; color: #EFD20A;';
+    node.style = 'z-index: 10; text-align: center; background-color: rgba(35,35,33,0.88); color: #EFD20A;';
     node.style.position = 'fixed';
     node.style.left = '50%';
     node.style.top = '50%';
