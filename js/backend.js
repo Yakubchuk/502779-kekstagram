@@ -20,7 +20,7 @@
   };
 
   window.load = function (onLoad, onError) {
-    var URL = 'https://js.dump.acaemy/kekstagram/data';
+    var URL = 'https://js.dump.acaemy/kekstagam/data';
 
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
