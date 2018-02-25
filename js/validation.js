@@ -7,10 +7,8 @@
     return str;
   };
   window.HASH_TAG.addEventListener('change', function () {
-    var HASH_SYMBOL = '#';
-    var SPACE_SYMBOL = ' ';
     var message = '';
-    if (window.HASH_TAG.value.charAt(0) !== HASH_SYMBOL && window.HASH_TAG.value.length > 0 && window.HASH_TAG.value.charAt(0) !== SPACE_SYMBOL) {
+    if (window.HASH_TAG.value.charAt(0) !== '#' && window.HASH_TAG.value.length > 0 && window.HASH_TAG.value.charAt(0) !== ' ') {
       message += 'Хеш-тег должен начинаться с # ! ';
     } else {
       window.HASH_TAG.setCustomValidity('');

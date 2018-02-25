@@ -61,6 +61,7 @@
   // --- Очистка поля Инпут
   window.cleaningForm = function () {
     selectFile.value = ('');
+    window.hideSliderBar();
     window.IMG_PREV.setAttribute('class', 'effect-image-preview');
     window.HASH_TAG.value = '';
     window.HASH_TAG.style.outlineColor = window.GOOD;

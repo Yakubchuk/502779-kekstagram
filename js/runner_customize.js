@@ -11,13 +11,13 @@
       var defaultEff = 'effect-image-preview';
       var newEff = this.id.slice(7);
       if (newEff === 'effect-none') {
-        hideSliderBar(defaultEff);
+        window.hideSliderBar(defaultEff);
       } else {
         moveSliderBarToDefault(defaultEff, newEff);
       }
     });
   }
-  var hideSliderBar = function (a) {
+  window.hideSliderBar = function (a) {
     window.IMG_PREV.className = '';
     window.IMG_PREV.classList.add(a);
     slider.classList.add('hidden');
