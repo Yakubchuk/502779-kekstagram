@@ -3,7 +3,7 @@
 
 
   window.upload = function (data, onLoad, onError) {
-    var URL = 'https://js.dump.academy/kekstagram';
+    var URL = 'https://js.dump.academy/keksagram';
 
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';

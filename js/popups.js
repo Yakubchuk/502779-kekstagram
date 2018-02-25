@@ -6,7 +6,7 @@
   var mainPicture = document.querySelector('.gallery-overlay');
   var selectFile = document.querySelector('#upload-file');
 
-  gallery.addEventListener('mousedown', function (evt) {
+  gallery.addEventListener('click', function (evt) {
     var target = evt.target;
     if (target.tagName.toLowerCase() === 'img') {
       evt.preventDefault();

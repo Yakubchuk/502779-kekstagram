@@ -16,16 +16,16 @@
       window.HASH_TAG.setCustomValidity('');
       window.HASH_TAG.style.borderColor = window.GOOD;
       window.HASH_TAG.style.outlineColor = window.GOOD;
-      var arr = window.HASH_TAG.value.toLowerCase().split(HASH_SYMBOL);
+      var arr = window.HASH_TAG.value.toLowerCase().split('#');
       arr.shift();
       var countHash = arr.length;
       var m = 1;
       // --- проверка на ошибки
       if (arr.length <= 5) {
         for (var k = 0; k < arr.length; k++) {
-          if (arr[k].indexOf(SPACE_SYMBOL, 0) !== -1) {
+          if (arr[k].indexOf(' ', 0) !== -1) {
             // --- проверка количества слов в тегах по пробелам
-            if ((arr[k].length - 1) !== (arr[k].indexOf(SPACE_SYMBOL, 0))) {
+            if ((arr[k].length - 1) !== (arr[k].indexOf(' ', 0))) {
               message += 'Хеш-тег должен состоять из одного слова! ';
               // break;
             }
@@ -42,7 +42,7 @@
           m++;
         }
         // --- проверка на одинаковые теги
-        var arrNoSpace = spaceDel(window.HASH_TAG.value).toLowerCase().split(HASH_SYMBOL, 6);
+        var arrNoSpace = spaceDel(window.HASH_TAG.value).toLowerCase().split('#', 6);
         arrNoSpace.shift();
         arrNoSpace.sort();
         var match = arrNoSpace.length;
@@ -55,7 +55,7 @@
         message += 'Максимальное количество хеш-тегов = 5 ';
       }
     }
-    if (message !== '') {
+    if (message) {
       var messages = message.split('!');
       messages.shift();
       messages.sort();
@@ -67,7 +67,7 @@
       }
       giveErrorMessaage(window.HASH_TAG, message);
     } else {
-      takeErrorMessage(window.HASH_TAG);
+      clearErrorMessage(window.HASH_TAG);
     }
   });
   window.DESCRIPTION.addEventListener('keydown', function (evt) {
@@ -77,12 +77,12 @@
     if (window.DESCRIPTION.value.length > 140) {
       giveErrorMessaage(window.DESCRIPTION);
     } else {
-      takeErrorMessage(window.DESCRIPTION);
+      clearErrorMessage(window.DESCRIPTION);
     }
   });
 
   var giveErrorMessaage = function (fill, text) {
-    if (text === undefined) {
+    if (!text) {
       fill.setCustomValidity('Максимальная длинна комментария 140символов!');
       fill.style.borderColor = window.BAD;
       fill.style.outlineColor = window.BAD;
@@ -92,7 +92,7 @@
       fill.style.outlineColor = window.BAD;
     }
   };
-  var takeErrorMessage = function (fill) {
+  var clearErrorMessage = function (fill) {
     fill.setCustomValidity('');
     fill.style.outlineColor = window.GOOD;
     fill.style.borderColor = window.GOOD;
