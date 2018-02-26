@@ -45,7 +45,8 @@
     if (target.className === 'filters-radio') {
       // --- фильтрация по загрузке
       if (target.value === 'recommend') {
-        drawingFilter(window.pictures);
+        newfilter = window.pictures;
+        window.debounce(drawingFilter);
       }
       // --- фильтрация по количеству лайков
       if (target.value === 'popular') {
