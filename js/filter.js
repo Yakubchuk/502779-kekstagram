@@ -46,23 +46,20 @@
       // --- фильтрация по загрузке
       if (target.value === 'recommend') {
         newfilter = window.pictures;
-        window.debounce(drawingFilter);
       }
       // --- фильтрация по количеству лайков
       if (target.value === 'popular') {
         filterlikes(window.pictures);
-        window.debounce(drawingFilter);
       }
       // --- фильтрация по комментариям
       if (target.value === 'discussed') {
         filterDisscus(window.pictures);
-        window.debounce(drawingFilter);
       }
       // --- случайная фильтрация
       if (target.value === 'random') {
         filterRandom(window.pictures);
-        window.debounce(drawingFilter);
       }
+      window.debounce(drawingFilter);
     }
   });
 })();
