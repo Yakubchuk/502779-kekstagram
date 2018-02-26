@@ -21,12 +21,12 @@
   };
 
   // --- Отрисовка по данным из нового массива
-  var drawingFilter = function (curent) {
+  var drawingFilter = function () {
     var pictures = document.querySelectorAll('.picture');
     for (var i = 0; i < pictures.length; i++) {
-      pictures[i].querySelector('img').src = curent[i].url;
-      pictures[i].querySelector('.picture-likes').textContent = curent[i].likes;
-      pictures[i].querySelector('.picture-comments').textContent = curent[i].comments.length;
+      pictures[i].querySelector('img').src = newfilter[i].url;
+      pictures[i].querySelector('.picture-likes').textContent = newfilter[i].likes;
+      pictures[i].querySelector('.picture-comments').textContent = newfilter[i].comments.length;
     }
   };
   // --- функция DEBOUNCE
@@ -45,42 +45,22 @@
     if (target.className === 'filters-radio') {
       // --- фильтрация по загрузке
       if (target.value === 'recommend') {
-        if (lastTimeout) {
-          window.clearTimeout(lastTimeout);
-        }
-        lastTimeout = window.setTimeout(function () {
-          drawingFilter(window.pictures);
-        }, DEBOUNCE_INTERVAL);
+        drawingFilter(window.pictures);
       }
       // --- фильтрация по количеству лайков
       if (target.value === 'popular') {
-        if (lastTimeout) {
-          window.clearTimeout(lastTimeout);
-        }
-        lastTimeout = window.setTimeout(function () {
-          filterlikes(window.pictures);
-          drawingFilter(newfilter);
-        }, DEBOUNCE_INTERVAL);
+        filterlikes(window.pictures);
+        window.debounce(drawingFilter);
       }
       // --- фильтрация по комментариям
       if (target.value === 'discussed') {
-        if (lastTimeout) {
-          window.clearTimeout(lastTimeout);
-        }
-        lastTimeout = window.setTimeout(function () {
-          filterDisscus(window.pictures);
-          drawingFilter(newfilter);
-        }, DEBOUNCE_INTERVAL);
+        filterDisscus(window.pictures);
+        window.debounce(drawingFilter);
       }
       // --- случайная фильтрация
       if (target.value === 'random') {
-        if (lastTimeout) {
-          window.clearTimeout(lastTimeout);
-        }
-        lastTimeout = window.setTimeout(function () {
-          filterRandom(window.pictures);
-          drawingFilter(newfilter);
-        }, DEBOUNCE_INTERVAL);
+        filterRandom(window.pictures);
+        window.debounce(drawingFilter);
       }
     }
   });
