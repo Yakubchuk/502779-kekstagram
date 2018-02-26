@@ -13,12 +13,15 @@
       getData(target);
     }
   });
-  gallery.addEventListener('keydown', function (evt) {
+
+  var onPrewievPressEnter = function (evt) {
     var realTarget = evt.target;
     if (realTarget.tagName.toLowerCase() === 'a') {
       window.util.isEnterEvent(evt, openPrewiew, getData(realTarget.querySelector('img')));
+
     }
-  });
+  };
+  gallery.addEventListener('keydown', onPrewievPressEnter);
   var getData = function (target) {
     mainPicture.querySelector('.gallery-overlay-image').src = target.src;
     mainPicture.querySelector('.likes-count').textContent = target.parentNode.querySelector('.picture-likes').textContent;
@@ -27,10 +30,12 @@
   var openPrewiew = function () {
     mainPicture.classList.remove('hidden');
     document.addEventListener('keydown', onPrewiewEscPress);
+    gallery.removeEventListener('keydown', onPrewievPressEnter);
   };
   var closePrewiew = function () {
     mainPicture.classList.add('hidden');
     document.removeEventListener('keydown', onPrewiewEscPress);
+    gallery.addEventListener('keydown', onPrewievPressEnter);
   };
   var onPrewiewEscPress = function (evt) {
     window.util.isEscEvent(evt, closePrewiew);
