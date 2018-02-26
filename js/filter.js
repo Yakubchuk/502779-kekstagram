@@ -1,51 +1,86 @@
 'use strict';
 (function () {
-  // var sortFilters = document.querySelector('.filters-radio');
-
-  // window.Filters = {
-  //   'popular': (data.sort(function (a, b) {
-  //     return b.likes - a.likes;
-  //     console.log(data);
-  //   })),
-  //   'discussed': (data.sort(function (a, b) {
-  //     return a.comments.length - b.comments.length;
-  //     console.log(data);
-  //   })),
-  //   'random':
-//    (data.sort(function (a, b) {
-  //     return Math.random() - 0.5;
-  //     console.log(data);
-  //   })),
-  //   'recommend': (window.load(window.drawPictures, window.onError))
-  // };
+  var newfilter = [];
+  // --- фильтрация по количеству лайков
   var filterlikes = function (data) {
-    var likes = data.sort(function (a, b) {
+    newfilter = data.slice().sort(function (a, b) {
       return b.likes - a.likes;
     });
   };
+  // --- фильтрация по комментариям
   var filterDisscus = function (data) {
-    var Disscus = data.sort(function (a, b) {
+    newfilter = data.slice().sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
   };
+  // --- случайная фильтрация
   var filterRandom = function (data) {
-    var Random = data.sort(function (a, b) {
+    newfilter = data.slice().sort(function (a, b) {
       return Math.random() - 0.5;
     });
-    return Random;
   };
-  document.addEventListener('change', function (evt) {
+
+  // --- Отрисовка по данным из нового массива
+  var drawingFilter = function (curent) {
+    var pictures = document.querySelectorAll('.picture');
+    for (var i = 0; i < pictures.length; i++) {
+      pictures[i].querySelector('img').src = curent[i].url;
+      pictures[i].querySelector('.picture-likes').textContent = curent[i].likes;
+      pictures[i].querySelector('.picture-comments').textContent = curent[i].comments.length;
+    }
+  };
+  // --- функция DEBOUNCE
+  var DEBOUNCE_INTERVAL = 500; // ms
+
+  var lastTimeout;
+  window.debounce = function (fun) {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
+  };
+  // --- клик фильтра
+  document.addEventListener('click', function (evt) {
     var target = evt.target;
-    console.log(target);
     if (target.className === 'filters-radio') {
+      // --- фильтрация по загрузке
+      if (target.value === 'recommend') {
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(function () {
+          drawingFilter(window.pictures);
+        }, DEBOUNCE_INTERVAL);
+      }
+      // --- фильтрация по количеству лайков
       if (target.value === 'popular') {
-        filterlikes(window.pictures);
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(function () {
+          filterlikes(window.pictures);
+          drawingFilter(newfilter);
+        }, DEBOUNCE_INTERVAL);
       }
+      // --- фильтрация по комментариям
       if (target.value === 'discussed') {
-        filterDisscus(window.pictures);
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(function () {
+          filterDisscus(window.pictures);
+          drawingFilter(newfilter);
+        }, DEBOUNCE_INTERVAL);
       }
+      // --- случайная фильтрация
       if (target.value === 'random') {
-        window.drawPictures(filterRandom(window.pictures));
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(function () {
+          filterRandom(window.pictures);
+          drawingFilter(newfilter);
+        }, DEBOUNCE_INTERVAL);
       }
     }
   });
