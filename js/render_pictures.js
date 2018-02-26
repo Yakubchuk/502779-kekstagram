@@ -19,9 +19,5 @@
     window.PIC_LIST.appendChild(fragment);
     document.querySelector('.filters').classList.remove('filters-inactive');
   };
-
   window.load(window.drawPictures, window.onError);
-
-
-
 })();

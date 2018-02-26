@@ -1,14 +1,15 @@
 'use strict';
 (function () {
-  var gallery = document.querySelector('.pictures');
+  var blockGallery = document.querySelector('.pictures');
   var formCloseButton = document.querySelector('.upload-form-cancel');
   var prewiewCloseButton = document.querySelector('.gallery-overlay-close');
   var mainPicture = document.querySelector('.gallery-overlay');
   var selectFile = document.querySelector('#upload-file');
 
-  gallery.addEventListener('click', function (evt) {
+  blockGallery.addEventListener('click', function (evt) {
     var target = evt.target;
     if (target.tagName.toLowerCase() === 'img') {
+      evt.preventDefault();
       openPrewiew();
       getData(target);
     }
@@ -18,10 +19,9 @@
     var realTarget = evt.target;
     if (realTarget.tagName.toLowerCase() === 'a') {
       window.util.isEnterEvent(evt, openPrewiew, getData(realTarget.querySelector('img')));
-
     }
   };
-  gallery.addEventListener('keydown', onPrewievPressEnter);
+  blockGallery.addEventListener('keydown', onPrewievPressEnter);
   var getData = function (target) {
     mainPicture.querySelector('.gallery-overlay-image').src = target.src;
     mainPicture.querySelector('.likes-count').textContent = target.parentNode.querySelector('.picture-likes').textContent;
@@ -30,12 +30,12 @@
   var openPrewiew = function () {
     mainPicture.classList.remove('hidden');
     document.addEventListener('keydown', onPrewiewEscPress);
-    gallery.removeEventListener('keydown', onPrewievPressEnter);
+    blockGallery.removeEventListener('keydown', onPrewievPressEnter);
   };
   var closePrewiew = function () {
     mainPicture.classList.add('hidden');
     document.removeEventListener('keydown', onPrewiewEscPress);
-    gallery.addEventListener('keydown', onPrewievPressEnter);
+    blockGallery.addEventListener('keydown', onPrewievPressEnter);
   };
   var onPrewiewEscPress = function (evt) {
     window.util.isEscEvent(evt, closePrewiew);
