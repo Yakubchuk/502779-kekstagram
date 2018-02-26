@@ -26,7 +26,7 @@
     window.LEVEL_EFF = 0;
   };
   // --- наложение эффекта
-  var moveSliderBarToDefault = function (a,b) {
+  var moveSliderBarToDefault = function (a, b) {
     window.IMG_PREV.className = a;
     window.IMG_PREV.classList.add(b);
     slider.classList.remove('hidden');

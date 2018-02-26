@@ -15,7 +15,7 @@
   };
   // --- случайная фильтрация
   var filterRandom = function (data) {
-    newfilter = data.slice().sort(function (a, b) {
+    newfilter = data.slice().sort(function () {
       return Math.random() - 0.5;
     });
   };

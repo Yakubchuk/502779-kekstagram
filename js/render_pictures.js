@@ -12,7 +12,6 @@
   window.drawPictures = function (data) {
     var fragment = document.createDocumentFragment();
     window.pictures = data;
-    console.log(data);
     for (var j = 0; j < data.length; j++) {
       fragment.appendChild(window.renderPhotos(data[j]));
     }

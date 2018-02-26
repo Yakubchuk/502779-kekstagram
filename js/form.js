@@ -2,7 +2,7 @@
 (function () {
   var form = document.querySelector('.upload-form');
 
-  var onLoad = function (data) {
+  var onLoad = function () {
     window.onCloseSettings();
   };
 
