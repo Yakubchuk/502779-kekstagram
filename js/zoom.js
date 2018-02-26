@@ -22,5 +22,4 @@
       window.IMG_PREV.style.transform = 'scale(' + (currentCount + countZoom) / 100 + ')';
     }
   };
-
 })();

@@ -5,9 +5,9 @@
   // --- Слайдер
   var effects = document.querySelectorAll('input[name=effect]');
   var slider = document.querySelector('.upload-effect-level');
-
-  for (var e = 0; e < effects.length; e++) {
-    effects[e].addEventListener('change', function () {
+  // --- какой эффект применить
+  for (var i = 0; i < effects.length; i++) {
+    effects[i].addEventListener('change', function () {
       var defaultEff = 'effect-image-preview';
       var newEff = this.id.slice(7);
       if (newEff === 'effect-none') {
@@ -17,6 +17,7 @@
       }
     });
   }
+  // --- скрываем ползунок
   window.hideSliderBar = function (a) {
     window.IMG_PREV.className = '';
     window.IMG_PREV.classList.add(a);
