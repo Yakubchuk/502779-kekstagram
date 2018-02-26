@@ -9,8 +9,9 @@ window.util = (function () {
         action();
       }
     },
-    isEnterEvent: function (evt, action) {
+    isEnterEvent: function (evt, action, secondAction) {
       if (evt.keyCode === ENTER_KEYCODE) {
+        evt.preventDefault();
         action();
       }
     }

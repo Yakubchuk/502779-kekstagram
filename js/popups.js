@@ -9,9 +9,14 @@
   gallery.addEventListener('click', function (evt) {
     var target = evt.target;
     if (target.tagName.toLowerCase() === 'img') {
-      evt.preventDefault();
       openPrewiew();
       getData(target);
+    }
+  });
+  gallery.addEventListener('keydown', function (evt) {
+    var realTarget = evt.target;
+    if (realTarget.tagName.toLowerCase() === 'a') {
+      window.util.isEnterEvent(evt, openPrewiew, getData(realTarget.querySelector('img')));
     }
   });
   var getData = function (target) {
@@ -46,6 +51,7 @@
     window.SETTINGS.classList.add('hidden');
     document.removeEventListener('keydown', onSettingsEscPress);
     window.cleaningForm();
+    document.querySelector('#upload-effect-none').click();
   };
   var loadPicture = function () {
     var fileName = selectFile.files[0].name;
@@ -60,9 +66,6 @@
   });
   // --- Очистка поля Инпут
   window.cleaningForm = function () {
-    selectFile.value = ('');
-    window.hideSliderBar();
-    window.IMG_PREV.setAttribute('class', 'effect-image-preview');
     window.HASH_TAG.value = '';
     window.HASH_TAG.style.outlineColor = window.GOOD;
     window.HASH_TAG.style.borderColor = window.GOOD;
