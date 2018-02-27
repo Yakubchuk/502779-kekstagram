@@ -13,6 +13,9 @@
       openPrewiew();
       getData(target);
     }
+    if (target.tagName.toLowerCase() === 'span') {
+      evt.preventDefault();
+    }
   });
   // --- открытие миниатюры на ENTER
   var onPrewievPressEnter = function (evt) {
