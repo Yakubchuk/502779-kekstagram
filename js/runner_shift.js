@@ -9,7 +9,7 @@
     var currentEffect = getComputedStyle(window.IMG_PREV);
     var effectDone = String(currentEffect.filter);
     effectDone = effectDone.substring(0, effectDone.lastIndexOf('('));
-    window.SHADOW_SLI.style.width = (startCord / valueBar) * 100 + '%';
+    window.SHADOW_SLI.style.width = window.RUNNER.offsetLeft + 'px';
     // --- условия определения эффектов вычисление применяемых значений
     switch (effectDone) {
       case 'invert':
