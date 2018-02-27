@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var percentBar = document.querySelector('.upload-effect-level-line');
-// --- насыщенность эффектов по положению ползунка
+  // --- насыщенность эффектов по положению ползунка
   window.onRunnerShift = function () {
     var valueBar = percentBar.offsetWidth;
     var startCord = window.RUNNER.offsetLeft;
@@ -28,5 +28,5 @@
         window.IMG_PREV.style.filter = effectDone + '(' + currentValue + ')';
         window.LEVEL_EFF = Math.round(currentValue * 100);
     }
-  }
+  };
 })();

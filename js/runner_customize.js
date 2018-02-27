@@ -5,29 +5,31 @@
   // --- Слайдер
   var effects = document.querySelectorAll('input[name=effect]');
   var slider = document.querySelector('.upload-effect-level');
-
-  for (var e = 0; e < effects.length; e++) {
-    effects[e].addEventListener('change', function () {
+  // --- какой эффект применить
+  for (var i = 0; i < effects.length; i++) {
+    effects[i].addEventListener('change', function (evt) {
+      var target = evt.target;
       var defaultEff = 'effect-image-preview';
-      var newEff = this.id.slice(7);
+      var newEff = target.id.slice(7);
       if (newEff === 'effect-none') {
-        hideSliderBar(defaultEff);
+        window.hideSliderBar(defaultEff);
       } else {
         moveSliderBarToDefault(defaultEff, newEff);
       }
     });
   }
-  var hideSliderBar = function (a) {
+  // --- скрываем ползунок
+  window.hideSliderBar = function (defclass) {
     window.IMG_PREV.className = '';
-    window.IMG_PREV.classList.add(a);
+    window.IMG_PREV.classList.add(defclass);
     slider.classList.add('hidden');
     window.IMG_PREV.style.filter = '';
     window.LEVEL_EFF = 0;
   };
   // --- наложение эффекта
-  var moveSliderBarToDefault = function (a,b) {
-    window.IMG_PREV.className = a;
-    window.IMG_PREV.classList.add(b);
+  var moveSliderBarToDefault = function (defclass, newclass) {
+    window.IMG_PREV.className = defclass;
+    window.IMG_PREV.classList.add(newclass);
     slider.classList.remove('hidden');
     // --- бегунок на 100%
     window.LEVEL_EFF = 100;
@@ -38,9 +40,9 @@
   // --- скрытие ползунка при переключении эффектов
   (function () {
     var inp = effects;
-    for (var o = 0; o < inp.length; o++) {
-      if (inp[o].type === 'radio' && inp[o].checked) {
-        if (inp[o].value === 'none') {
+    for (var j = 0; j < inp.length; j++) {
+      if (inp[j].type === 'radio' && inp[j].checked) {
+        if (inp[j].value === 'none') {
           slider.classList.add('hidden');
           window.LEVEL_EFF = 0;
         }

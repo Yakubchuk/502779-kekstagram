@@ -11,6 +11,7 @@ window.util = (function () {
     },
     isEnterEvent: function (evt, action) {
       if (evt.keyCode === ENTER_KEYCODE) {
+        evt.preventDefault();
         action();
       }
     }
