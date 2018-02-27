@@ -3,23 +3,23 @@
 // //////////////////////////// ---------------------------- Обработчик событий смены Эффектов -------------------- ///////////////////////////
 (function () {
   // --- Слайдер
-  var effectsBlock = document.querySelector('.upload-effect-controls');
+  window.effectsBlock = document.querySelector('.upload-effect-controls');
   var slider = document.querySelector('.upload-effect-level');
   window.effOriginal = document.querySelector('#upload-effect-none');
   // --- какой эффект применить
 
-  effectsBlock.addEventListener('change', function (evt) {
+  window.onEffectsChange = function (evt) {
     var target = evt.target;
     var defaultEff = 'effect-image-preview';
     var newEff = target.id.slice(7);
     if (newEff === 'effect-none') {
-      window.hideSliderBar(defaultEff);
+      hideSliderBar(defaultEff);
     } else {
       moveSliderBarToDefault(defaultEff, newEff);
     }
-  });
+  };
   // --- скрываем ползунок
-  window.hideSliderBar = function (defclass) {
+  var hideSliderBar = function (defclass) {
     window.IMG_PREV.className = '';
     window.IMG_PREV.classList.add(defclass);
     slider.classList.add('hidden');

@@ -64,6 +64,7 @@
     });
     window.buttonDec.addEventListener('click', window.onSizeIncClick);
     window.buttonInc.addEventListener('click', window.onSizeDecClick);
+    window.effectsBlock.addEventListener('change', window.onEffectsChange);
   };
   window.onCloseSettings = function () {
     window.SETTINGS.classList.add('hidden');
@@ -76,6 +77,7 @@
     window.buttonInc.removeEventListener('click', function () {
       window.onSizeDecClick();
     });
+    window.effectsBlock.removeEventListener('change', window.onEffectsChange);
   };
   // --- src загружаемой картинки
   var loadPicture = function () {
