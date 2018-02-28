@@ -13,6 +13,9 @@
       openPrewiew();
       getData(target);
     }
+    if (target.tagName.toLowerCase() === 'span') {
+      evt.preventDefault();
+    }
   });
   // --- открытие миниатюры на ENTER
   var onPrewievPressEnter = function (evt) {
@@ -62,24 +65,22 @@
     formCloseButton.addEventListener('click', function () {
       window.onCloseSettings();
     });
-    window.buttonDec.addEventListener('click', function () {
-      window.onSizeIncClick();
-    });
-    window.buttonInc.addEventListener('click', function () {
-      window.onSizeDecClick();
-    });
+    window.buttonDec.addEventListener('click', window.onSizeIncClick);
+    window.buttonInc.addEventListener('click', window.onSizeDecClick);
+    window.effectsBlock.addEventListener('change', window.onEffectsChange);
   };
   window.onCloseSettings = function () {
     window.SETTINGS.classList.add('hidden');
     document.removeEventListener('keydown', onSettingsEscPress);
     window.cleaningForm();
-    document.querySelector('#upload-effect-none').click();
+    window.effOriginal.click();
     window.buttonDec.removeEventListener('click', function () {
       window.onSizeIncClick();
     });
     window.buttonInc.removeEventListener('click', function () {
       window.onSizeDecClick();
     });
+    window.effectsBlock.removeEventListener('change', window.onEffectsChange);
   };
   // --- src загружаемой картинки
   var loadPicture = function () {

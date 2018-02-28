@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   // ---функция вычисления случайных значений
   var getRandomNum = function (max, min) {
     return Math.floor(Math.random() * (max + 1 - min));
@@ -15,20 +14,18 @@
     var currentComments = [];
     var block = window.COMMENTS.sort(compareRandom);
     var counter = Math.round(Math.random() + 1);
-    for (var n = 0; n < counter; n++) {
-      currentComments[n] = block[n];
+    for (var i = 0; i < counter; i++) {
+      currentComments[i] = block[i];
     }
     return currentComments;
   };
   // ---Запонлнение Массива Объектов Данными
   for (var i = 0; i < 25; i++) {
-    window.PHOTO_DATA[i] =
+    window.PHOTOS_DATA[i] =
       {
         urls: 'photos/' + (i + 1) + '.jpg',
         likes: getRandomNum(200, 15),
         comments: mixinDatas()
       };
   }
-  //
-
 })();

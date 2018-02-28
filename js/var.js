@@ -7,10 +7,10 @@
   window.SHADOW_SLI = document.querySelector('.upload-effect-level-val');
   window.HASH_TAG = document.querySelector('.upload-form-hashtags');
   window.DESCRIPTION = document.querySelector('.upload-form-description');
-  window.LEVEL_EFF = document.querySelector('.upload-effect-level-value').value;
+  window.levelEffect = document.querySelector('.upload-effect-level-value').value;
   window.PIC_LIST = document.querySelector('.pictures');
   window.PIC_TEMPLATE = document.querySelector('#picture-template').content;
-  window.PHOTO_DATA = [];
+  window.PHOTOS_DATA = [];
   window.COMMENTS =
     ['Всё отлично!',
       'В целом всё неплохо. Но не всё.',
