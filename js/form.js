@@ -3,11 +3,11 @@
   var form = document.querySelector('.upload-form');
 
   var onLoad = function () {
-    window.onCloseSettings();
+    window.popups.onCloseSettings();
   };
 
   form.addEventListener('submit', function (evt) {
-    window.upload(new FormData(form), onLoad, window.onError);
+    window.backend.upload(new FormData(form), onLoad, window.onError);
     evt.preventDefault();
   });
 })();

@@ -1,25 +1,30 @@
 'use strict';
 // //////////////////////////// ---------------------------- Маштаб изображения -------------------- ///////////////////////////
 (function () {
-  window.buttonDec = document.querySelector('.upload-resize-controls-button-dec');
-  window.buttonInc = document.querySelector('.upload-resize-controls-button-inc');
-  window.sizeValue = document.querySelector('.upload-resize-controls-value');
-  var countZoom = 25;
+  window.zoom = (function () {
+    // window.sizeValue = document.querySelector('.upload-resize-controls-value');
+    var countZoom = 25;
+    return {
+      buttonDec: document.querySelector('.upload-resize-controls-button-dec'),
+      buttonInc: document.querySelector('.upload-resize-controls-button-inc'),
+      sizeValue: document.querySelector('.upload-resize-controls-value'),
+      // --- Маштаб Плюс
+      onSizeIncClick: function () {
+        var currentCount = parseInt(window.zoom.sizeValue.value, 0);
+        if (currentCount - countZoom >= countZoom) {
+          window.zoom.sizeValue.value = currentCount - countZoom + '%';
+          window.IMG_PREV.style.transform = 'scale(' + (currentCount - countZoom) / 100 + ')';
+        }
+      },
+      // --- Маштаб Минус
+      onSizeDecClick: function () {
+        var currentCount = parseInt(window.zoom.sizeValue.value, 0);
+        if (currentCount + countZoom <= 100) {
+          window.zoom.sizeValue.value = currentCount + countZoom + '%';
+          window.IMG_PREV.style.transform = 'scale(' + (currentCount + countZoom) / 100 + ')';
+        }
+      }
+    };
+  })();
 
-  // --- Маштаб Плюс
-  window.onSizeIncClick = function () {
-    var currentCount = parseInt(window.sizeValue.value, 0);
-    if (currentCount - countZoom >= countZoom) {
-      window.sizeValue.value = currentCount - countZoom + '%';
-      window.IMG_PREV.style.transform = 'scale(' + (currentCount - countZoom) / 100 + ')';
-    }
-  };
-  // --- Маштаб Минус
-  window.onSizeDecClick = function () {
-    var currentCount = parseInt(window.sizeValue.value, 0);
-    if (currentCount + countZoom <= 100) {
-      window.sizeValue.value = currentCount + countZoom + '%';
-      window.IMG_PREV.style.transform = 'scale(' + (currentCount + countZoom) / 100 + ')';
-    }
-  };
 })();

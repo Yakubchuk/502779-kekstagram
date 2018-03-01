@@ -6,6 +6,33 @@
   var overlayPicture = document.querySelector('.gallery-overlay');
   var selectedFile = document.querySelector('#upload-file');
   // --- ловим клик по миниатюре
+  window.popups = (function () {
+    // --- Очистка поля Инпут
+    var cleanForm = function () {
+      window.HASH_TAG.value = '';
+      window.HASH_TAG.style.outlineColor = window.GOOD;
+      window.HASH_TAG.style.borderColor = window.GOOD;
+      window.DESCRIPTION.value = '';
+      selectedFile.value = '';
+      window.IMG_PREV.style = '';
+      window.zoom.sizeValue.value = '100%';
+    };
+    return {
+      onCloseSettings: function () {
+        window.SETTINGS.classList.add('hidden');
+        cleanForm();
+        window.runnerCustomize.effOriginal.click();
+        document.removeEventListener('keydown', onSettingsEscPress);
+        window.zoom.buttonDec.removeEventListener('click', function () {
+          window.zoom.onSizeIncClick();
+        });
+        window.zoom.buttonInc.removeEventListener('click', function () {
+          window.zoom.onSizeDecClick();
+        });
+        window.runnerCustomize.effectsBlock.removeEventListener('change', window.runnerCustomize.onEffectsChange);
+      }
+    };
+  })();
   blockGallery.addEventListener('click', function (evt) {
     var target = evt.target;
     if (target.tagName.toLowerCase() === 'img') {
@@ -56,32 +83,20 @@
     window.util.isEscEvent(evt, closePrewiew);
   };
   var onSettingsEscPress = function (evt) {
-    window.util.isEscEvent(evt, window.onCloseSettings);
+    window.util.isEscEvent(evt, window.popups.onCloseSettings);
   };
   // --- Открытие закрытие Form --------- Подтягиваем изображение
   var openSettings = function () {
     window.SETTINGS.classList.remove('hidden');
     document.addEventListener('keydown', onSettingsEscPress);
     formCloseButton.addEventListener('click', function () {
-      window.onCloseSettings();
+      window.popups.onCloseSettings();
     });
-    window.buttonDec.addEventListener('click', window.onSizeIncClick);
-    window.buttonInc.addEventListener('click', window.onSizeDecClick);
-    window.effectsBlock.addEventListener('change', window.onEffectsChange);
+    window.zoom.buttonDec.addEventListener('click', window.zoom.onSizeIncClick);
+    window.zoom.buttonInc.addEventListener('click', window.zoom.onSizeDecClick);
+    window.runnerCustomize.effectsBlock.addEventListener('change', window.runnerCustomize.onEffectsChange);
   };
-  window.onCloseSettings = function () {
-    window.SETTINGS.classList.add('hidden');
-    window.cleanForm();
-    window.effOriginal.click();
-    document.removeEventListener('keydown', onSettingsEscPress);
-    window.buttonDec.removeEventListener('click', function () {
-      window.onSizeIncClick();
-    });
-    window.buttonInc.removeEventListener('click', function () {
-      window.onSizeDecClick();
-    });
-    window.effectsBlock.removeEventListener('change', window.onEffectsChange);
-  };
+
   // --- src загружаемой картинки
   var loadPicture = function () {
     var fileName = selectedFile.files[0].name;
@@ -92,14 +107,4 @@
     openSettings();
     loadPicture();
   });
-  // --- Очистка поля Инпут
-  window.cleanForm = function () {
-    window.HASH_TAG.value = '';
-    window.HASH_TAG.style.outlineColor = window.GOOD;
-    window.HASH_TAG.style.borderColor = window.GOOD;
-    window.DESCRIPTION.value = '';
-    selectedFile.value = '';
-    window.IMG_PREV.style = '';
-    window.sizeValue.value = '100%';
-  };
 })();

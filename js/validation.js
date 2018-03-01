@@ -3,7 +3,7 @@
 (function () {
   var MAX_DESCRIPTION_LENGHT = 140;
   window.description = document.querySelector('.upload-form-description');
-  var spaceDelet = function (str) {
+  var deletSpace = function (str) {
     str = str.replace(/\s/g, '');
     return str;
   };
@@ -43,7 +43,7 @@
           m++;
         }
         // --- проверка на одинаковые теги
-        var arrNoSpace = spaceDelet(window.HASH_TAG.value).toLowerCase().split('#', 6);
+        var arrNoSpace = deletSpace(window.HASH_TAG.value).toLowerCase().split('#', 6);
         arrNoSpace.shift();
         arrNoSpace.sort();
         var match = arrNoSpace.length;
