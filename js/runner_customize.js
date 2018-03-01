@@ -32,7 +32,7 @@
     slider.classList.remove('hidden');
     // --- бегунок на 100%
     window.levelEffect = 100;
-    window.IMG_PREV.style = '';
+    window.IMG_PREV.style.filter = '';
     window.RUNNER.style.left = '460px';
     window.SHADOW_SLI.style.width = window.RUNNER.offsetLeft + 'px';
   };
