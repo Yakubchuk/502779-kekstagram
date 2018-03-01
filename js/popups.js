@@ -71,9 +71,9 @@
   };
   window.onCloseSettings = function () {
     window.SETTINGS.classList.add('hidden');
-    document.removeEventListener('keydown', onSettingsEscPress);
     window.cleaningForm();
     window.effOriginal.click();
+    document.removeEventListener('keydown', onSettingsEscPress);
     window.buttonDec.removeEventListener('click', function () {
       window.onSizeIncClick();
     });
@@ -98,5 +98,6 @@
     window.HASH_TAG.style.outlineColor = window.GOOD;
     window.HASH_TAG.style.borderColor = window.GOOD;
     window.DESCRIPTION.value = '';
+    selectedFile.value = '';
   };
 })();
