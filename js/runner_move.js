@@ -1,9 +1,9 @@
 'use strict';
 (function () {
+  var MAX_WIDTH = 460;
   window.RUNNER.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
     var startCoords = {x: evt.clientX};
-    var maxWidth = 460;
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
       var shift = {x: startCoords.x - moveEvt.clientX};
@@ -15,8 +15,8 @@
       if (moveEvt.clientX <= leftBreak.x) {
         curMove = 0;
       }
-      if (moveEvt.clientX >= leftBreak.x + maxWidth) {
-        curMove = maxWidth;
+      if (moveEvt.clientX >= leftBreak.x + MAX_WIDTH) {
+        curMove = MAX_WIDTH;
       }
       window.RUNNER.style.left = curMove + 'px';
       window.onRunnerShift();

@@ -9,12 +9,12 @@
 
   window.onEffectsChange = function (evt) {
     var target = evt.target;
-    var defaultEff = 'effect-image-preview';
+    var defaultEffect = 'effect-image-preview';
     var newEff = target.id.slice(7);
     if (newEff === 'effect-none') {
-      hideSliderBar(defaultEff);
+      hideSliderBar(defaultEffect);
     } else {
-      moveSliderBarToDefault(defaultEff, newEff);
+      moveSliderBarToDefault(defaultEffect, newEff);
     }
   };
   // --- скрываем ползунок

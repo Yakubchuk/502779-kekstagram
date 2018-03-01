@@ -1,8 +1,9 @@
 'use strict';
 // //////////////////////////// -------------------------  Проверка Формы ------------------------ ///////////////////////////
 (function () {
+  var MAX_DESCRIPTION_LENGHT = 140;
   window.description = document.querySelector('.upload-form-description');
-  var spaceDel = function (str) {
+  var spaceDelet = function (str) {
     str = str.replace(/\s/g, '');
     return str;
   };
@@ -14,39 +15,42 @@
       window.HASH_TAG.setCustomValidity('');
       window.HASH_TAG.style.borderColor = window.GOOD;
       window.HASH_TAG.style.outlineColor = window.GOOD;
-      var arr = window.HASH_TAG.value.toLowerCase().split('#');
-      arr.shift();
-      var countHash = arr.length;
+      var tagsArray = window.HASH_TAG.value.toLowerCase().split('#');
+      tagsArray.shift();
+      var countHash = tagsArray.length;
       var m = 1;
       // --- проверка на ошибки
-      if (arr.length <= 5) {
-        for (var k = 0; k < arr.length; k++) {
-          if (arr[k].indexOf(' ', 0) !== -1) {
+      if (tagsArray.length <= 5) {
+        for (var k = 0; k < tagsArray.length; k++) {
+          if (tagsArray[k].indexOf(' ', 0) !== -1) {
             // --- проверка количества слов в тегах по пробелам
-            if ((arr[k].length - 1) !== (arr[k].indexOf(' ', 0))) {
+            if ((tagsArray[k].length - 1) !== (tagsArray[k].indexOf(' ', 0))) {
               message += 'Хеш-тег должен состоять из одного слова! ';
-              // break;
+              break;
             }
           } else {
             // --- проверка на пробел перед следующим тегом
             if (countHash !== m) {
               message += 'Хеш-теги должны разделяться пробелами! ';
+              break;
             }
           }
           // --- проверка количества символов в тегах
-          if (arr[k].length > 19) {
+          if (tagsArray[k].length > 19) {
             message += 'Хеш-тег не должен превышать 20 символов! ';
+            break;
           }
           m++;
         }
         // --- проверка на одинаковые теги
-        var arrNoSpace = spaceDel(window.HASH_TAG.value).toLowerCase().split('#', 6);
+        var arrNoSpace = spaceDelet(window.HASH_TAG.value).toLowerCase().split('#', 6);
         arrNoSpace.shift();
         arrNoSpace.sort();
         var match = arrNoSpace.length;
         while (match--) {
           if (arrNoSpace[match] === arrNoSpace[match - 1]) {
             message += 'Хеш-теги не должны повторяться! ';
+            break;
           }
         }
       } else {
@@ -57,10 +61,10 @@
       var messages = message.split('!');
       messages.shift();
       messages.sort();
-      var once = messages.length;
-      while (once--) {
-        if (messages[once] === messages[once - 1]) {
-          messages.splice(once, 1);
+      var quantity = messages.length;
+      while (quantity--) {
+        if (messages[quantity] === messages[quantity - 1]) {
+          messages.splice(quantity, 1);
         }
       }
       giveErrorMessaage(window.HASH_TAG, message);
@@ -72,7 +76,7 @@
     evt.stopPropagation();
   });
   window.DESCRIPTION.addEventListener('change', function () {
-    if (window.DESCRIPTION.value.length > 140) {
+    if (window.DESCRIPTION.value.length > MAX_DESCRIPTION_LENGHT) {
       giveErrorMessaage(window.DESCRIPTION);
     } else {
       clearErrorMessage(window.DESCRIPTION);
