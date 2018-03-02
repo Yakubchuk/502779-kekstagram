@@ -19,9 +19,17 @@
       tagsArray.shift();
       var countHash = tagsArray.length;
       var m = 1;
+      var tagsNoSpace = deletSpace(window.HASH_TAG.value).toLowerCase().split('#', 6);
+      tagsNoSpace.shift();
+      tagsNoSpace.sort();
       // --- проверка на ошибки
       if (tagsArray.length <= 5) {
         for (var k = 0; k < tagsArray.length; k++) {
+          // --- проверка на одинаковые теги
+          if (tagsNoSpace[k] === tagsNoSpace[k - 1]) {
+            message += 'Хеш-теги не должны повторяться! ';
+            break;
+          }
           if (tagsArray[k].indexOf(' ', 0) !== -1) {
             // --- проверка количества слов в тегах по пробелам
             if ((tagsArray[k].length - 1) !== (tagsArray[k].indexOf(' ', 0))) {
@@ -41,17 +49,6 @@
             break;
           }
           m++;
-        }
-        // --- проверка на одинаковые теги
-        var arrNoSpace = deletSpace(window.HASH_TAG.value).toLowerCase().split('#', 6);
-        arrNoSpace.shift();
-        arrNoSpace.sort();
-        var match = arrNoSpace.length;
-        while (match--) {
-          if (arrNoSpace[match] === arrNoSpace[match - 1]) {
-            message += 'Хеш-теги не должны повторяться! ';
-            break;
-          }
         }
       } else {
         message += 'Максимальное количество хеш-тегов = 5 ';
