@@ -7,6 +7,6 @@
     SHADOW_SLI: document.querySelector('.upload-effect-level-val'),
     HASH_TAG: document.querySelector('.upload-form-hashtags'),
     DESCRIPTION: document.querySelector('.upload-form-description'),
-    levelEffect: document.querySelector('.upload-effect-level-value').value,
-  }
+    levelEffect: document.querySelector('.upload-effect-level-value').value
+  };
 })();
