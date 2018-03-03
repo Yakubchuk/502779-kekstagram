@@ -9,7 +9,7 @@
     });
   };
   // --- фильтрация по комментариям
-  var getDisscusFilter = function (data) {
+  var getDisscussionFilter = function (data) {
     newFilters = data.slice().sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
@@ -52,7 +52,7 @@
       }
       // --- фильтрация по комментариям
       if (target.value === 'discussed') {
-        getDisscusFilter(window.pictures);
+        getDisscussionFilter(window.pictures);
       }
       // --- случайная фильтрация
       if (target.value === 'random') {
