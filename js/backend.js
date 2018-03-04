@@ -2,7 +2,7 @@
 (function () {
   var Url = {
     SERVER: 'https://js.dump.academy/kekstagram',
-    DATA: 'https://js.dump.academy/kekstagram/data'
+    DATA: 'https://js.dump.acadmy/kekstagram/data'
   };
   window.backend = {
     // --- отправка

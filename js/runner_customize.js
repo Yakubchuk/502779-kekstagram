@@ -30,11 +30,11 @@
     onEffectsChange: function (evt) {
       var target = evt.target;
       var defaultEffect = 'effect-image-preview';
-      var newEff = target.id.slice(7);
-      if (newEff === 'effect-none') {
+      var newEffect = target.id.slice(7);
+      if (newEffect === 'effect-none') {
         hideSliderBar(defaultEffect);
       } else {
-        moveSliderBarToDefault(defaultEffect, newEff);
+        moveSliderBarToDefault(defaultEffect, newEffect);
       }
     }
   };

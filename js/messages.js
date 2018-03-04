@@ -14,4 +14,5 @@
     node.textContent = message;
     document.body.insertAdjacentElement('afterbegin', node);
   };
+  window.onError();
 })();
