@@ -36,7 +36,7 @@
     var target = evt.target;
     if (target.tagName.toLowerCase() === 'img') {
       evt.preventDefault();
-      openPrewiew();
+      onPreviewClick();
       getData(target);
     }
     if (target.tagName.toLowerCase() === 'span') {
@@ -44,14 +44,14 @@
     }
   });
   // --- открытие миниатюры на ENTER
-  var onPrewievPressEnter = function (evt) {
+  var onPreviewPressEnter = function (evt) {
     var realTarget = evt.target;
     if (realTarget.tagName.toLowerCase() === 'a') {
-      window.util.isEnterEvent(evt, openPrewiew, getData(realTarget.querySelector('img')));
+      window.util.isEnterEvent(evt, onPreviewClick, getData(realTarget.querySelector('img')));
     }
   };
   // --- ловим нажатие на ENTER
-  blockGallery.addEventListener('keydown', onPrewievPressEnter);
+  blockGallery.addEventListener('keydown', onPreviewPressEnter);
   // --- заполнение полной версии данными из миниатюры
   var getData = function (target) {
     overlayPicture.querySelector('.gallery-overlay-image').src = target.src;
@@ -59,27 +59,27 @@
     overlayPicture.querySelector('.comments-count').textContent = target.parentNode.querySelector('.picture-comments').textContent;
   };
   // --- функция открытия миниатюры
-  var openPrewiew = function () {
+  var onPreviewClick = function () {
     overlayPicture.classList.remove('hidden');
     document.addEventListener('keydown', onPrewiewEscPress);
-    blockGallery.removeEventListener('keydown', onPrewievPressEnter);
-    prewiewCloseButton.addEventListener('click', closePrewiew);
+    blockGallery.removeEventListener('keydown', onPreviewPressEnter);
+    prewiewCloseButton.addEventListener('click', onCloseButtonPreviewClick);
     prewiewCloseButton.addEventListener('keydown', function (evt) {
-      window.util.isEnterEvent(evt, closePrewiew);
+      window.util.isEnterEvent(evt, onCloseButtonPreviewClick);
     });
   };
   // --- функция закрытия миниатюры
-  var closePrewiew = function () {
+  var onCloseButtonPreviewClick = function () {
     overlayPicture.classList.add('hidden');
     document.removeEventListener('keydown', onPrewiewEscPress);
     prewiewCloseButton.removeEventListener('keydown', function (evt) {
-      window.util.isEnterEvent(evt, closePrewiew);
+      window.util.isEnterEvent(evt, onCloseButtonPreviewClick);
     });
-    blockGallery.addEventListener('keydown', onPrewievPressEnter);
+    blockGallery.addEventListener('keydown', onPreviewPressEnter);
   };
   // --- закрытие миниатюры по ESC
   var onPrewiewEscPress = function (evt) {
-    window.util.isEscEvent(evt, closePrewiew);
+    window.util.isEscEvent(evt, onCloseButtonPreviewClick);
   };
   var onSettingsEscPress = function (evt) {
     window.util.isEscEvent(evt, window.popups.onCloseSettings);

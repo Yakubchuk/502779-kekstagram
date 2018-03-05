@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var Url = {
-    SERVER: 'https://js.dump.academy/kekstagam',
+    SERVER: 'https://js.dump.academy/kekstagram',
     DATA: 'https://js.dump.academy/kekstagram/data'
   };
   window.backend = {
