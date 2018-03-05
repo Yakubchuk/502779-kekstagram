@@ -1,8 +1,8 @@
 'use strict';
 (function () {
   var Url = {
-    SERVER: 'https://js.dump.academy/kekstagram',
-    DATA: 'https://js.dump.acadmy/kekstagram/data'
+    SERVER: 'https://js.dump.academy/kekstagam',
+    DATA: 'https://js.dump.academy/kekstagram/data'
   };
   window.backend = {
     // --- отправка
