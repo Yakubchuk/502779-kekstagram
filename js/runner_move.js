@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var MAX_WIDTH = 460;
+  var movementBlock = document.querySelector('.upload-effect-level');
   window.var.RUNNER.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
     var startCoords = {x: evt.clientX};
@@ -10,7 +11,7 @@
       startCoords = {
         x: moveEvt.clientX
       };
-      var leftBreak = document.querySelector('.upload-effect-level').getBoundingClientRect();
+      var leftBreak = movementBlock.getBoundingClientRect();
       var curMove = (window.var.RUNNER.offsetLeft - shift.x);
       if (moveEvt.clientX <= leftBreak.x) {
         curMove = 0;

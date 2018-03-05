@@ -3,6 +3,7 @@
 (function () {
   var ITEM_TEMPLATE = document.querySelector('#picture-template').content;
   var itemsList = document.querySelector('.pictures');
+  var sortBlock = document.querySelector('.filters');
   var insertItems = function (item) {
     var currentPictures = ITEM_TEMPLATE.cloneNode(true);
     currentPictures.querySelector('img').src = item.url;
@@ -17,7 +18,7 @@
       fragment.appendChild(insertItems(data[j]));
     }
     itemsList.appendChild(fragment);
-    document.querySelector('.filters').classList.remove('filters-inactive');
+    sortBlock.classList.remove('filters-inactive');
   };
   window.backend.load(drawPictures, window.onError);
 })();
